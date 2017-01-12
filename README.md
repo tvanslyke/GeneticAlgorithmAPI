@@ -1,1 +1,1 @@
-initial commit
+Genetic Algorithm API for fun!
