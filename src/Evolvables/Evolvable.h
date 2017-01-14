@@ -15,10 +15,15 @@ class Evolvable {
 private:
 	Chromosome genome;
 	double fitness;
-	size_t rank;
 	void LoadNewGenome(Chromosome & newGenome);
-	void Update();
 	Chromosome & GetGenomeReference();
+public:
+	void Update();
+	double GetFitness();
+	bool operator<(const Evolvable & other) const;
+	bool operator<=(const Evolvable & other) const;
+	bool operator>(const Evolvable & other) const;
+	bool operator>=(const Evolvable & other) const;
 	Chromosome GetGenome();
 };
 

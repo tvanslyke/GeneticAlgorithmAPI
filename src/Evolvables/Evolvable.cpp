@@ -27,3 +27,28 @@ Chromosome Evolvable::GetGenome()
 {
 	return this->genome;
 }
+
+double Evolvable::GetFitness()
+{
+	return this->fitness;
+}
+
+
+bool Evolvable::operator<(const Evolvable & other) const
+{
+	return this->fitness < other.fitness;
+}
+bool Evolvable::operator<=(const Evolvable & other) const
+{
+	return this->fitness <= other.fitness;
+}
+bool Evolvable::operator>(const Evolvable & other) const
+{
+	return this->fitness > other.fitness;
+}
+bool Evolvable::operator>=(const Evolvable & other) const
+{
+	return this->fitness >= other.fitness;
+}
+
+

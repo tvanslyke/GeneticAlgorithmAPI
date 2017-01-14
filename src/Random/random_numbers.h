@@ -31,23 +31,58 @@ using std::iota;
 void rng_autoinit();
 
 template <typename T>
-vector<T> py_range(T start, T end)
+vector<T> py_range(T const & start, const T & end)
 {
 	assert(std::is_integral<T>::value);
 	vector<T> vec = vector<T>((size_t)end - (size_t)start);
 	iota(vec.begin(), vec.end(), start);
 	return vec;
 }
+template <typename T>
+vector<T> py_range(T const & start, const T & end, const T & step)
+{
+	assert(std::is_integral<T>::value);
+	vector<T> vec = vector<T>(((size_t)end - (size_t)start) / (size_t)(step));
+	if(step == 1)  iota(vec.begin(), vec.end(), start);
+	else
+	{
+		size_t len = vec.size();
+		vec[0] = start;
+		for(size_t i = 1; i < len; ++i)
+		{
+			vec[i] = vec[i - 1] + step;
+		}
+	}
+	return vec;
+}
 
 template <typename T>
-T rng_range(T lb, T ub)
+T rng_range(const T & lb, const T & ub)
 {
 	return (T)((T)rand() / ((T)(RAND_MAX / (ub - lb))) + lb);;
 }
+
 template <typename T>
-vector<T> rng_range_vector(size_t len, T lb, T ub)
+vector<T> rng_rand_vector(const size_t & len, const T & lb, const T & ub)
 {
-	assert(ub > lb);
+	assert(not (ub < lb));
+	vector<T> vec = vector<T>(len);
+	for(size_t i = 0; i < len; ++i)
+	{
+		vec[i] = rng_range(lb, ub);
+	}
+	return vec;
+}
+
+template <typename T>
+vector<T> simple_random_vector(size_t len)
+{
+	vector<T> vec = vector<T>(len);
+	while(len--)
+	{
+		vec[len] = (T)rand();
+	}
+	return vec;
 }
 
 // sample values in range [lb, ub) with repetition
@@ -60,6 +95,7 @@ vector<T> rng_range_sample_rep(size_t len, const T & lb, const T & ub)
 		sample[len] = rng_range(lb, ub);
 	}
 }
+
 // sample values in range [lb, ub) without repetition
 template <typename T>
 vector<T> rng_range_sample_unq(size_t len, const T & lb, const T & ub)

@@ -6,20 +6,18 @@
  */
 
 #include <iostream>
-#include "Gene.h"
-#include <typeinfo>
-#include <unordered_map>
-#include "Chromosome.h"
-#include "Mutatables/MutatableTest.h"
-#include "Mutatables/Mutatable.h"
-#include "Mutatables/MutatablePrimitive.h"
+#include "Random/random_numbers.h"
 using namespace std;
+
+
 
 int main(void)
 {
 	rng_autoinit();
 
 
+
+	cout << "Done." << endl;
 	return 0;
 }
 

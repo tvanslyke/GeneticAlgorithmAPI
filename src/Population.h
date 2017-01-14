@@ -10,24 +10,25 @@
 #include <unordered_map>
 #include <vector>
 #include "Evolvables/Evolvable.h"
+#include "Sampling/SamplingPolicy.h"
 using std::vector;
 
 class Population {
-
+	friend class SamplingPolicy;
 private:
 	vector<Evolvable *> pop;
-
-
-	vector<Evolvable *> SampleStochastic(size_t new_pop_size);
-	vector<Evolvable *> SampleRoulleteWheel(size_t new_pop_size);
-
-
+	SamplingPolicy * policy;
 public:
-	Population(size_t count);
+	Population(SamplingPolicy * policy);
 	virtual ~Population();
+
+	// replaces 'pop' with it's next generation.
+	// member 'SamplingPolicy * policy' handles selection of the next generation.
 	bool NextGeneration();
 
-
+	// indicates whether the population is extant (not extinct).
+	// true if pop.size() > 0 else false
+	bool IsExtant();
 };
 
 #endif /* POPULATION_H_ */

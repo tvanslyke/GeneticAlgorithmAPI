@@ -4,7 +4,9 @@ src/Population.d: ../src/Population.cpp ../src/Population.h \
  ../src/Evolvables/../Mutatables/../Random/random_numbers.h \
  ../src/Evolvables/../Mutatables/Mutatable.h \
  ../src/Evolvables/../Mutatables/MutatablePrimitive.h \
- ../src/Evolvables/../Mutatables/Mutatable.h
+ ../src/Evolvables/../Mutatables/Mutatable.h \
+ ../src/Sampling/SamplingPolicy.h \
+ ../src/Sampling/../Evolvables/Evolvable.h
 
 ../src/Population.h:
 
@@ -23,3 +25,7 @@ src/Population.d: ../src/Population.cpp ../src/Population.h \
 ../src/Evolvables/../Mutatables/MutatablePrimitive.h:
 
 ../src/Evolvables/../Mutatables/Mutatable.h:
+
+../src/Sampling/SamplingPolicy.h:
+
+../src/Sampling/../Evolvables/Evolvable.h:

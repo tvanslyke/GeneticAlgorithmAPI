@@ -15,29 +15,23 @@ bool fit_compare(Evolvable * &a, Evolvable * &b)
 	return (a->fitness) < (b->fitness);
 }
 
-Population::Population(size_t count) {
+Population::Population(SamplingPolicy * policy) {
 	// TODO Auto-generated constructor stub
-	pop = vector<Evolvable *>(count);
+	this->policy = policy;
 }
 
 Population::~Population() {
 	// TODO Auto-generated destructor stub
 }
 
-
+bool Population::IsExtant()
+{
+	return (bool)pop.size();
+}
 bool Population::NextGeneration()
 {
 	return true;
 }
 
-vector<Evolvable * > Population::SampleStochastic(size_t new_pop_size)
-{
-	vector<Evolvable *> new_pop = vector<Evolvable *>(new_pop_size);
 
-	return vector<Evolvable *>();
-}
-vector<Evolvable *> Population::SampleRoulleteWheel(size_t new_pop_size)
-{
-	return vector<Evolvable *>();
-}
 
