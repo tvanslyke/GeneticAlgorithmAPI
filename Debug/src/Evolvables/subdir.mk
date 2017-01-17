@@ -4,13 +4,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/Evolvables/Evolvable.cpp 
+../src/Evolvables/Evolvable.cpp \
+../src/Evolvables/HillClimber.cpp 
 
 OBJS += \
-./src/Evolvables/Evolvable.o 
+./src/Evolvables/Evolvable.o \
+./src/Evolvables/HillClimber.o 
 
 CPP_DEPS += \
-./src/Evolvables/Evolvable.d 
+./src/Evolvables/Evolvable.d \
+./src/Evolvables/HillClimber.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

@@ -5,7 +5,7 @@
  *      Author: tim
  */
 #include "random_numbers.h"
-
+#include <functional>
 // implementation dependent way of preserving bits
 union signed_to_unsigned
 {
@@ -17,7 +17,10 @@ void rng_autoinit()
 {
 	timeval tv;
 	gettimeofday(&tv, NULL);
-	srand(tv.tv_usec);
+	std::hash<time_t> hasher;
+	size_t seed = ((tv.tv_usec));
+	seed += hasher((tv.tv_sec));
+	srand(seed);
 }
 
 void set_rand_bools(vector<bool> & vec, unsigned int & bits, size_t  &offset)

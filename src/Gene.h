@@ -9,9 +9,9 @@
 #ifndef GENE_H_
 #define GENE_H_
 #include "stdlib.h"
-#include "Mutatables/mutation.h"
-#include "Mutatables/Mutatable.h"
-#include "Mutatables/MutatablePrimitive.h"
+#include "Mutation/mutation.h"
+#include "Mutation/Mutatables/Mutatable.h"
+#include "Mutation/Mutatables/MutatablePrimitive.h"
 #include <type_traits>
 #include <exception>
 class Gene {

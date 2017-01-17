@@ -106,7 +106,7 @@ vector<Evolvable *> stochastic_universal(vector<Evolvable *> pop, size_t & new_p
 }
 
 
-vector<Evolvable *> fitness_proportionate(vector<Evolvable *> pop, size_t & new_pop_size)
+vector<Evolvable *> fitness_proportionate(vector<Evolvable *> pop, const size_t & new_pop_size)
 {
 
 	// initialize the vector to be returned and sort in descending order

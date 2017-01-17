@@ -18,6 +18,7 @@ class Population {
 private:
 	vector<Evolvable *> pop;
 	SamplingPolicy * policy;
+
 public:
 	Population(SamplingPolicy * policy);
 	virtual ~Population();

@@ -10,12 +10,15 @@
 
 #include <type_traits>
 #include <iostream>
+#include <unordered_map>
 using std::cout;
 using std::endl;
+using std::unordered_map;
+
+
 
 class Mutatable {
 	friend class Gene;
-
 public:
 	Mutatable(){};
 	virtual ~Mutatable(){};

@@ -12,12 +12,13 @@
 #include <vector>
 #include "Gene.h"
 #include <functional>
-
-// crossover types for 2-parent
 #define UNIFORM           0
 #define SINGLE_POINT      1
 #define DOUBLE_POINT      2
 
+
+
+// crossover types for 2-parent
 using namespace std;
 class Chromosome {
 	friend class Population;

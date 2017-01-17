@@ -23,8 +23,11 @@ using std::string;
 
 class SamplingPolicy {
 private:
+	// for lookup
 	static unordered_map<string, SamplingPolicy *> active_policies;
+	static vector<string> policy_names;
 	// unique name
+protected:
 	string policy_name;
 
 	// elitist policies guarantee that some number of the fittest members
@@ -44,17 +47,12 @@ private:
 	 */
 	size_t pop_bounds[2];
 public:
-	SamplingPolicy(string policy_name);
+	SamplingPolicy(string policy_name, bool is_elitist = false, bool is_rank_based = false, size_t lb = 0, size_t ub = 0);
 	virtual ~SamplingPolicy();
 	virtual vector<Evolvable *> Sample(vector<Evolvable *> pop);
 	static size_t GetActivePolicyCount();
 	static void DisplayActivePolicies(bool verbose = false);
 	void SetPopulationBounds(size_t bmin, size_t bmax);
-	string IDString()
-	{
-		string id_string = policy_name + " \t " + std::to_string(is_rank_based) + " \t ";
-		return id_string;
-	}
 	bool IsBounded();
 	bool IsRankBased();
 	bool IsElitest();

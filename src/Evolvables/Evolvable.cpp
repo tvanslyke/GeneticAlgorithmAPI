@@ -6,7 +6,7 @@
  */
 
 #include "Evolvable.h"
-
+#include "../crossover.h"
 
 
 void Evolvable::LoadNewGenome(Chromosome & newGenome)
@@ -21,6 +21,20 @@ void Evolvable::Update()
 Chromosome & Evolvable::GetGenomeReference()
 {
 	return this->genome;
+}
+
+void CrossoverInPlace(Evolvable * other, unsigned int crossover_type_flag)
+{
+	switch(crossover_type_flag)
+	{
+	case UNIFORM:
+		//uniform_in_place(this, other);
+		break;
+	case 2:
+		break;
+	default:
+		break;
+	}
 }
 
 Chromosome Evolvable::GetGenome()

@@ -12,6 +12,10 @@
 #include <climits>
 #include <cstdlib>
 
+#define UNIFORM           0
+#define SINGLE_POINT      1
+#define DOUBLE_POINT      2
+
 
 
 void n_point_in_place(Chromosome & c1, Chromosome & c2, size_t n);

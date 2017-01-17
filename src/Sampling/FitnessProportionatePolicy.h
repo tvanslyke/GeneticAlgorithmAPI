@@ -12,8 +12,9 @@
 
 class FitnessProportionatePolicy: public SamplingPolicy {
 public:
-	FitnessProportionatePolicy(string name);
+	FitnessProportionatePolicy(string name, size_t pop_size);
 	virtual ~FitnessProportionatePolicy();
+	vector<Evolvable *> Sample(vector<Evolvable *> pop);
 };
 
 #endif /* SAMPLING_FITNESSPROPORTIONATEPOLICY_H_ */
