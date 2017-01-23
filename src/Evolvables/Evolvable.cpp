@@ -6,7 +6,7 @@
  */
 
 #include "Evolvable.h"
-#include "../crossover.h"
+#include "../Genetic/crossover.h"
 
 
 void Evolvable::LoadNewGenome(Chromosome & newGenome)

@@ -7,7 +7,10 @@
 
 #ifndef EVOLVABLES_EVOLVABLE_H_
 #define EVOLVABLES_EVOLVABLE_H_
-#include "../Chromosome.h"
+#include "../Genetic/Chromosome.h"
+
+
+
 
 class Evolvable {
 	friend class Population;
@@ -19,9 +22,10 @@ protected:
 	void LoadNewGenome(Chromosome & newGenome);
 	Chromosome & GetGenomeReference();
 public:
+
+	void UpdateFromGenome();
 	void Update();
 	double GetFitness();
-
 	void ChromosomalCrossover(Evolvable * other, unsigned int crossover_type_flag = UNIFORM);
 	bool operator<(const Evolvable & other) const;
 	bool operator<=(const Evolvable & other) const;

@@ -20,13 +20,6 @@
  *   Standard mutatables use flags to se
  */
 
-const size_t MUT_BITFLIP =        0;  // no constructor args
-const size_t MUT_RAND =           1;  // lower and upper bound args of type T
-const size_t MUT_INCR =           2;  // incr arg of type T
-const size_t MUT_RAND_INCR =      3;  // lower and upper bound args of type T
-const size_t MUT_REL_INCR =       4;  // proportion argument of type FPType
-const size_t MUT_REL_RAND_INCR =  5;  // proportion argument of type FPType
-
 template <typename T, typename FPType = double>
 class Mutator
 {

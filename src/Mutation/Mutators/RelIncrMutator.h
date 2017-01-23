@@ -33,9 +33,10 @@ public:
 	void MutateData(T & data)
 	{
 		if(rand() & 1)
-			data += prop * data;
+
+			data += (T)(prop * data);
 		else
-			data -= prop * data;
+			data -= (T)(prop * data);
 	}
 };
 

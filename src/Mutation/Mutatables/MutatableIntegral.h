@@ -9,15 +9,10 @@
 #define MUTATION_MUTATABLES_MUTATABLEINTEGRAL_H_
 
 #include "Mutatable.h"
-#include "MutatorFactory.h"
+#include "../Mutators/MutatorFactory.h"
 #include <iostream>
+#include <type_traits>
 
-#define MUT_BITFLIP         0  // no constructor args
-#define MUT_RAND            1  // lower and upper bound args of type T
-#define MUT_INCR            2  // incr arg of type T
-#define MUT_RAND_INCR       3  // lower and upper bound args of type T
-#define MUT_REL_INCR        4  // proportion argument of type FPType
-#define MUT_REL_RAND_INCR   5  // proportion argument of type FPType
 
 
 template <typename T, typename FPType = double>
@@ -26,19 +21,30 @@ private:
 	T data;
 	Mutator<T> * mutator;
 public:
+	MutatableIntegral()
+	{
+		mutator = NULL;
+		data = 0;
+	}
 	MutatableIntegral(T data, size_t mutator_select = 0, T lb = 0, T ub = 0, FPType prop = .5)
 	{
-		this->data = data;
 		mutator = MutatorFactory<T, FPType>::GetMutator(mutator_select, lb, ub, prop);
-
+		this->data = data;
 	}
 	virtual ~MutatableIntegral()
 	{
-		delete mutator;
+		MutatorFactory<T, FPType>::NotifyDeletion(mutator);
 	}
 	void Mutate()
 	{
 		this->mutator->MutateData(data);
+	}
+	virtual MutatableIntegral<T, FPType> * Copy()
+	{
+		MutatableIntegral<T, FPType> * cpy = new MutatableIntegral<T, FPType>();
+		cpy->data = this->data;
+		cpy->mutator = MutatorFactory<T, FPType>::NotitfyAddition(this->mutator);
+		return cpy;
 	}
 };
 

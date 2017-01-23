@@ -29,8 +29,8 @@ class Chromosome {
 
 private:
 	vector<Gene> genes;
-
 	void CopyGenomeSegmentFrom(const Chromosome & other, size_t start, size_t end);
+
 public:
 	static hash<size_t> hash_func;
 	static float default_mutation_rate;

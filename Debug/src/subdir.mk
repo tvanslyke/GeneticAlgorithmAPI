@@ -4,21 +4,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/Chromosome.cpp \
 ../src/Population.cpp \
-../src/crossover.cpp \
 ../src/main.cpp 
 
 OBJS += \
-./src/Chromosome.o \
 ./src/Population.o \
-./src/crossover.o \
 ./src/main.o 
 
 CPP_DEPS += \
-./src/Chromosome.d \
 ./src/Population.d \
-./src/crossover.d \
 ./src/main.d 
 
 

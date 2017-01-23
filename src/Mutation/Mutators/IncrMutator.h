@@ -32,13 +32,12 @@ public:
 	{
 		;
 	}
-	virtual void SetIncr(T new_incr)
-	{
-		this->incr = new_incr;
-	}
 	void MutateData(T & data)
 	{
+		// decide if positive or negative increment
 		T temp = rand() & 1 ? -incr : incr;
+
+		// ensure no overflow occurs
 		if(temp > 0)
 		{
 			if(data > maxm)
@@ -56,7 +55,10 @@ public:
 	}
 	void MutateData(T * data)
 	{
+		// decide if positive or negative increment
 		T temp = rand() & 1 ? -incr : incr;
+
+		// ensure no overflow occurs
 		if(temp > 0)
 		{
 			if(*data > maxm)

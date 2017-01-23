@@ -33,6 +33,10 @@ const size_t MUT_RAND_INCR =      3;  // lower and upper bound args of type T
 const size_t MUT_REL_INCR =       4;  // proportion argument of type FPType
 const size_t MUT_REL_RAND_INCR =  5;  // proportion argument of type FPType
 
+/*
+ *   TODO:  STOP MANUALLY REFERENCE COUNTING Y'IDIOT.
+ */
+
 template <typename T, typename FPType>
 class MutatorFactory {
 private:
@@ -86,7 +90,7 @@ public:
 			return mut;
 		}
 	}
-	static void Notify(Mutator<T, FPType> * mut)
+	static void NotifyDeletion(Mutator<T, FPType> * mut)
 	{
 		if(not mut_counts.count(mut))
 		{
@@ -101,6 +105,19 @@ public:
 			}
 		}
 	}
+	static Mutator<T, FPType> * NotifyAddition(Mutator<T, FPType> * mut)
+	{
+		if(not mut_counts.count(mut))
+		{
+			cout << "[MutatorFactor::Notify] Notified of an unknown/unmanaged Mutator!  Potential memory leak! [Warning]\n" << endl;
+		}
+		else
+		{
+			mut_counts[mut] += 1;
+		}
+		return mut;
+	}
+
 
 };
 

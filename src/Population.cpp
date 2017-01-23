@@ -15,13 +15,14 @@ bool fit_compare(Evolvable * &a, Evolvable * &b)
 	return (a->fitness) < (b->fitness);
 }
 
-Population::Population(SamplingPolicy * policy) {
+Population::Population(EvolutionPolicy * policy) {
 	// TODO Auto-generated constructor stub
-	this->policy = policy;
+	this->evolution_policy = policy;
 }
 
 Population::~Population() {
 	// TODO Auto-generated destructor stub
+
 }
 
 bool Population::IsExtant()
@@ -30,7 +31,7 @@ bool Population::IsExtant()
 }
 bool Population::NextGeneration()
 {
-	return true;
+	this->evolution_policy->MakeNextGeneration(pop);
 }
 
 

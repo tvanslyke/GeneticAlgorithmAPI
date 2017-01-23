@@ -24,8 +24,9 @@ C_UPPER_DEPS :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 src \
-src/Sampling \
 src/Random \
 src/Misc \
+src/Genetic \
 src/Evolvables \
+src/Evolution \
 

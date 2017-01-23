@@ -17,20 +17,14 @@ class RandIncrMutator: public virtual RandMutator<T, FPType>,
                        public virtual IncrMutator<T, FPType>
 {
 public:
-	RandIncrMutator(T lower_bound, T upper_bound):
-		RandMutator<T>(lower_bound, upper_bound),
+	RandIncrMutator(T incr_max):
 		IncrMutator<T>((T)0)
 	{
-		IncrMutator<T>::minm = std::numeric_limits<T>::min();
-		IncrMutator<T>::maxm = std::numeric_limits<T>::max();
+
 	}
 	virtual ~RandIncrMutator()
 	{
 
-	}
-	virtual void SetBounds(T lb, T ub)
-	{
-		this->RandMutator<T>::SetBounds(lb, ub);
 	}
 	void MutateData(T & data)
 	{

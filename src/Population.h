@@ -9,18 +9,19 @@
 #define POPULATION_H_
 #include <unordered_map>
 #include <vector>
+
+#include "Evolution/EvolutionPolicy.h"
 #include "Evolvables/Evolvable.h"
-#include "Sampling/SamplingPolicy.h"
 using std::vector;
 
 class Population {
 	friend class SamplingPolicy;
 private:
 	vector<Evolvable *> pop;
-	SamplingPolicy * policy;
+	EvolutionPolicy * evolution_policy;
 
 public:
-	Population(SamplingPolicy * policy);
+	Population(EvolutionPolicy * policy);
 	virtual ~Population();
 
 	// replaces 'pop' with it's next generation.

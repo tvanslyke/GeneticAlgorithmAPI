@@ -9,7 +9,7 @@
 
 #include "crossover.h"
 #include <cassert>
-#include "Random/random_numbers.h"
+#include "../Random/random_numbers.h"
 #include <unordered_set>
 #include <algorithm>
 
@@ -131,6 +131,7 @@ void uniform_in_place(Chromosome & c1, Chromosome & c2, float prob)
 		}
 	}
 }
+
 Chromosome uniform_new_child(Chromosome & c1, Chromosome & c2, float prob)
 {
 	assert(c1.genes.size() == c2.genes.size());

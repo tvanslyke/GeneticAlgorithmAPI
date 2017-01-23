@@ -6,7 +6,8 @@
  */
 
 
-#include "sampling.h"
+#include "../Evolution/sampling.h"
+
 #include "../Random/random_numbers.h"
 #include "../Algorithms/searching.h"
 #include <unordered_map>
@@ -106,7 +107,70 @@ vector<Evolvable *> stochastic_universal(vector<Evolvable *> pop, size_t & new_p
 }
 
 
-vector<Evolvable *> fitness_proportionate(vector<Evolvable *> pop, const size_t & new_pop_size)
+
+
+vector<Evolvable *> fitness_proportionate(vector<Evolvable *> pop, const size_t & new_pop_size, bool delete_unsampled)
+{
+
+	// initialize new population vector
+	vector<Evolvable *> new_pop = vector<Evolvable *>(new_pop_size);
+	size_t old_pop_size = pop.size();
+
+	// extract fitnesses to avoid method call overhead of repeated calls to pop[i]->GetFitness()
+	vector<double> fits = vector<double>(old_pop_size);
+	for(size_t i = 0; i < old_pop_size; ++i)
+	{
+		fits[i] = pop[i]->GetFitness();
+	}
+
+	// sort in descending order
+	std::sort(fits.begin(), fits.end());
+	std::reverse(fits.begin(), fits.end());
+
+	// replace fitnesses with the cumulative sum of fitnesses
+	accumulate<double>(fits);
+
+	// store a few values to avoid repeated method/function calls
+	double total_fitness = fits[old_pop_size - 1];
+	double fit_select;
+	size_t index;
+	vector<double>::iterator fits_first_ind = fits.begin();
+	vector<double>::iterator fits_last_ind = fits.end();
+
+	if(delete_unsampled)
+	{
+		vector<bool> tracker = vector<bool>(new_pop_size);
+		// make selections
+		for(size_t i = 0; i < new_pop_size; ++i)
+		{
+			fit_select = rng_range<double>(0.0, total_fitness);
+			index = std::lower_bound(fits_first_ind , fits_last_ind, fit_select) - fits_first_ind;
+			new_pop[i] = pop[index];
+			tracker[index] = true;
+		}
+		for(size_t i = 0; i < new_pop_size; ++i)
+		{
+			if(not tracker[index])
+			{
+				delete pop[index];
+			}
+		}
+	}
+	else
+	{
+		// make selections
+		for(size_t i = 0; i < new_pop_size; ++i)
+		{
+			fit_select = rng_range<double>(0.0, total_fitness);
+			index = std::lower_bound(fits_first_ind , fits_last_ind, fit_select) - fits_first_ind;
+			new_pop[i] = pop[index];
+		}
+	}
+	return new_pop;
+}
+
+
+vector<Evolvable *> fitness_proportionate_fast(vector<Evolvable *> pop, const size_t & new_pop_size)
 {
 
 	// initialize the vector to be returned and sort in descending order
@@ -135,6 +199,8 @@ vector<Evolvable *> fitness_proportionate(vector<Evolvable *> pop, const size_t 
 	}
 	return new_pop;
 }
+
+
 
 
 

@@ -15,25 +15,15 @@ template <typename T, typename FPType = double>
 class RelRandIncrMutator:   public virtual RelIncrMutator<T, FPType>,
 							public virtual RandIncrMutator<T>
 {
-protected:
-	virtual void SetBounds(T lb, T ub)
-	{
-		this->RandIncrMutator<T>::SetBounds(lb, ub);
-	}
 public:
 	RelRandIncrMutator(FPType prop = .5):
-		RelIncrMutator<T, FPType>::RelIncrMutator(prop),
-		RandIncrMutator<T>::RandIncrMutator(0, 0)
+		RelIncrMutator<T, FPType>::RelIncrMutator(prop)
 	{
 		;
 	}
 	virtual ~RelRandIncrMutator()
 	{
 		;
-	}
-	virtual void SetProportion(FPType prop)
-	{
-		this->RelIncrMutator<T, FPType>::SetProportion(prop);
 	}
 	virtual void MutateData(T & data)
 	{
