@@ -11,19 +11,21 @@
 #include <memory>
 
 #include "Genetics/ChromosomeTypes/Chromosome.h"
-class Evolvable {
 
+class Evolvable {
+	friend class CrossoverPolicy;
 private:
 
 protected:
 	Evolvable();
-	std::unique_ptr<Chromosome> chromosome;
+	std::shared_ptr<Chromosome> chromosome;
+
 public:
 	virtual ~Evolvable();
-	void mutate()
-	{
-		this->chromosome->mutate();
-	}
+	void mutate();
+	double getFitness() const;
+
+
 };
 
 #endif /* EVOLVABLE_H_ */

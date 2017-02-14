@@ -11,14 +11,13 @@
 
 class CrossoverPolicy {
 private:
-public:
+protected:
 	CrossoverPolicy();
+public:
 	virtual ~CrossoverPolicy();
 
-	void cross()
-	{
-		;
-	}
+	void cross(void * begin1, void * end1, void * start2);
+
 };
 
 #endif /* GENETICSTRUCTURES_CROSOVERPOLICIES_CROSSOVERPOLICY_H_ */

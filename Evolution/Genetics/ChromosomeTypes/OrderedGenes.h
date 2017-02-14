@@ -21,8 +21,6 @@ private:
 
 	Container<Gene> genes_;
 
-	Gene & operator[](size_t index);
-	Gene & at(size_t index);
 
 	Container<Gene>::iterator begin()
 	{

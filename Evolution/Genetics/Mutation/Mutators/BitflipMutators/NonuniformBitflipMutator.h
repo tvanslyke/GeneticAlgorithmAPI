@@ -15,10 +15,10 @@ template <typename T>
 class NonuniformBitflipMutator: public BitflipMutator<T> {
 private:
 
-	std::vector<unsigned int> cutoffs_;
+	std::vector<uint_fast64_t> cutoffs_;
 	size_t nbits;
 public:
-	static std::vector<unsigned int> vectorize(std::function<double (size_t)> func)
+	static std::vector<uint_fast64_t> vectorize(std::function<double (size_t)> func)
 	{
 		size_t nbits = sizeof(T) * CHAR_BIT;
 		double sum = 0;
@@ -29,22 +29,22 @@ public:
 			nums.push_back(func(i));
 			sum += nums[i];
 		}
-		unsigned int fullrange = BaseRNG::maxm - BaseRNG::minm;
-		std::vector<unsigned int> cutoffs;
+		uint_fast64_t fullrange = BaseRNG::maxm - BaseRNG::minm;
+		std::vector<uint_fast64_t> cutoffs;
 		cutoffs.reserve(nbits);
 		for(size_t i = 0; i < nbits; ++i)
 		{
-			cutoffs.push_back(BaseRNG::minm + (unsigned int)(fullrange * (nums[i]/sum)));
+			cutoffs.push_back(BaseRNG::minm + (uint_fast64_t)(fullrange * (nums[i]/sum)));
 		}
 		return cutoffs;
 	}
-	NonuniformBitflipMutator(const std::vector<unsigned int> & dist_values)
+	NonuniformBitflipMutator(const std::vector<uint_fast64_t> & dist_values)
 	{
 		nbits = sizeof(T) * CHAR_BIT;
 		assert(dist_values.size() == nbits);
 		cutoffs_ = dist_values;
 	}
-	NonuniformBitflipMutator(std::vector<unsigned int> && dist_values)
+	NonuniformBitflipMutator(std::vector<uint_fast64_t> && dist_values)
 	{
 		nbits = sizeof(T) * CHAR_BIT;
 		assert(dist_values.size() == nbits);
@@ -57,7 +57,7 @@ public:
 	void mutate(boost::any & data)
 	{
 		T temp = boost::any_cast<T>(data);
-		unsigned int prob = 0;
+		uint_fast64_t prob = 0;
 		for(size_t i = 0; i < nbits; ++i)
 		{
 			prob = BaseRNG::getRandomNumber();

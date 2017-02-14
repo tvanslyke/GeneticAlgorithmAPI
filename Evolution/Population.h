@@ -8,14 +8,19 @@
 #ifndef GENETICSTRUCTURES_POPULATION_H_
 #define GENETICSTRUCTURES_POPULATION_H_
 
-
+#include <memory>
+#include <vector>
+#include "Genetics/CrossoverPolicies/CrossoverPolicy.h"
+#include "Evolvable.h"
 
 class Population {
-private:
-
-public:
+protected:
 	Population();
+	std::vector<std::shared_ptr<Evolvable>> pop;
+	std::shared_ptr<CrossoverPolicy> crossoverPolicy;
+public:
 	virtual ~Population();
+	virtual void nextGeneration();
 };
 
 #endif /* GENETICSTRUCTURES_POPULATION_H_ */

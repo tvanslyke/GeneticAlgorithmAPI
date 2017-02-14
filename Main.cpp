@@ -22,17 +22,19 @@
 #include <limits>
 #include <cmath>
 #include "Utilities/GenericHashing/GenericStrongKey.h"
+
 using std::cout;
 using std::endl;
 using rng::UniformRNG;
 using rng::RandomNumbers;
+using rng::BaseRNG;
+
 
 
 
 int main(void)
 {
 	cout << "Start." << endl;
-
 
 	cout << endl<< "Done." << endl;
 	return 0;

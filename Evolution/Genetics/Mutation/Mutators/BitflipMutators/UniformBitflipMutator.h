@@ -14,18 +14,17 @@ template <typename T>
 class UniformBitflipMutator:public BitflipMutator<T> {
 
 private:
-	const unsigned int cutoff_;
+	const uint_fast64_t cutoff_;
 public:
 
-	UniformBitflipMutator(unsigned int cutoff):BitflipMutator<T>(),cutoff_(cutoff)
+	UniformBitflipMutator(uint_fast64_t cutoff):BitflipMutator<T>(),cutoff_(cutoff)
 	{
 
 	}
 	UniformBitflipMutator(double probability):
-		UniformBitflipMutator(BaseRNG::minm + ((unsigned int)((BaseRNG::maxm - BaseRNG::minm) * probability)))
+		UniformBitflipMutator(BaseRNG::minm + ((uint_fast64_t)((BaseRNG::maxm - BaseRNG::minm) * probability)))
 	{
-		assert(0.0 <= probability);
-		assert(probability <= 1.0);
+		assert((0.0 <= probability) and (probability <= 1.0));
 	}
 	virtual ~UniformBitflipMutator()
 	{

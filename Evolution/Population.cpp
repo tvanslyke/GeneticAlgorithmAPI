@@ -16,3 +16,8 @@ Population::~Population() {
 	// TODO Auto-generated destructor stub
 }
 
+
+void Population::nextGeneration()
+{
+	;
+}

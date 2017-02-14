@@ -28,9 +28,12 @@ Utilities \
 Random \
 . \
 Evolution \
+Evolution/NewGenerationPolicies \
+Evolution/Genetics/Sampling \
 Evolution/Genetics/Mutation/Mutators \
 Evolution/Genetics/Mutation \
 Evolution/Genetics \
-Evolution/Genetics/CrosoverPolicies \
+Evolution/Genetics/CrossoverPolicies/InPlaceCrossover \
+Evolution/Genetics/CrossoverPolicies \
 Evolution/Genetics/ChromosomeTypes \
 

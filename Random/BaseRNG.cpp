@@ -14,15 +14,18 @@ namespace rng{
 BaseRNG::BaseRNG(){}
 BaseRNG::~BaseRNG(){}
 
-unsigned int BaseRNG::getRandomNumber()
+uint_fast64_t BaseRNG::getRandomNumber()
 {
 	return twister_();
 }
 
-
+unsigned int BaseRNG::getVeryRandomNumber()
+{
+	return rd_();
+}
 std::random_device BaseRNG::rd_;
 std::mt19937_64 BaseRNG::twister_(BaseRNG::rd_());
 
-const unsigned int BaseRNG::minm = rd_.min();
-const unsigned int BaseRNG::maxm = rd_.max();
+const uint_fast64_t BaseRNG::minm = BaseRNG::twister_.min();
+const uint_fast64_t BaseRNG::maxm = BaseRNG::twister_.max();
 }

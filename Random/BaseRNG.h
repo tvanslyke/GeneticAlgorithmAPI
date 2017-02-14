@@ -28,9 +28,10 @@ private:
 	virtual ~BaseRNG();
 public:
 	static std::mt19937_64 twister_;
-	static unsigned int getRandomNumber();
-	static const unsigned int minm;
-	static const unsigned int maxm;
+	static uint_fast64_t getRandomNumber();
+	static unsigned getVeryRandomNumber();
+	static const uint_fast64_t minm;
+	static const uint_fast64_t maxm;
 	template <typename T>
 	static void seedRNG(T & rng)
 	{

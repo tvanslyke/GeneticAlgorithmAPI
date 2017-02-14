@@ -16,3 +16,11 @@ Evolvable::~Evolvable() {
 	// TODO Auto-generated destructor stub
 }
 
+void Evolvable::mutate()
+{
+	this->chromosome->mutate();
+}
+double Evolvable::getFitness() const
+{
+	return 0;
+}

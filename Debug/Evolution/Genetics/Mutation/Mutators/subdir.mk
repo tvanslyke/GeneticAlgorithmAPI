@@ -4,16 +4,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../Evolution/Genetics/Mutation/Mutators/Mutator.cpp \
-../Evolution/Genetics/Mutation/Mutators/MutatorIDHandler.cpp 
+../Evolution/Genetics/Mutation/Mutators/Mutator.cpp 
 
 OBJS += \
-./Evolution/Genetics/Mutation/Mutators/Mutator.o \
-./Evolution/Genetics/Mutation/Mutators/MutatorIDHandler.o 
+./Evolution/Genetics/Mutation/Mutators/Mutator.o 
 
 CPP_DEPS += \
-./Evolution/Genetics/Mutation/Mutators/Mutator.d \
-./Evolution/Genetics/Mutation/Mutators/MutatorIDHandler.d 
+./Evolution/Genetics/Mutation/Mutators/Mutator.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

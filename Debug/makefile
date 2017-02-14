@@ -11,9 +11,12 @@ RM := rm -rf
 -include Utilities/GenericHashing/subdir.mk
 -include Utilities/subdir.mk
 -include Random/subdir.mk
+-include Evolution/NewGenerationPolicies/subdir.mk
+-include Evolution/Genetics/Sampling/subdir.mk
 -include Evolution/Genetics/Mutation/Mutators/subdir.mk
 -include Evolution/Genetics/Mutation/subdir.mk
--include Evolution/Genetics/CrosoverPolicies/subdir.mk
+-include Evolution/Genetics/CrossoverPolicies/InPlaceCrossover/subdir.mk
+-include Evolution/Genetics/CrossoverPolicies/subdir.mk
 -include Evolution/Genetics/ChromosomeTypes/subdir.mk
 -include Evolution/Genetics/subdir.mk
 -include Evolution/subdir.mk

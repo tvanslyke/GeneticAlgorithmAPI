@@ -179,7 +179,30 @@ public:
 	}
 
 
-
+	template <typename It1>
+	static It1 choose(const It1 & begin, const It1 & end)
+	{
+		replace(0, (end - begin) - 1);
+		return (begin + rng_());
+	}
+	template <typename It1>
+	static It1 choose(It1 && begin, const It1 & end)
+	{
+		replace(0, (end - begin) - 1);
+		return (begin + rng_());
+	}
+	template <typename It1>
+	static It1 choose(const It1 & begin, It1 && end)
+	{
+		replace(0, (end - begin) - 1);
+		return (begin + rng_());
+	}
+	template <typename It1>
+	static It1 choose(It1 && begin, It1 && end)
+	{
+		replace(0, (end - begin) - 1);
+		return (begin + rng_());
+	}
 	template <typename It>
 	static void uniqueIntegers(It begin, It end, T lb, T ub)
 	{

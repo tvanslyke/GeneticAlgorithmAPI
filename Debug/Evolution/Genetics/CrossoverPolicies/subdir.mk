@@ -4,20 +4,17 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../Random/BaseRNG.cpp \
-../Random/RandomBitsAndBools.cpp 
+../Evolution/Genetics/CrossoverPolicies/CrossoverPolicy.cpp 
 
 OBJS += \
-./Random/BaseRNG.o \
-./Random/RandomBitsAndBools.o 
+./Evolution/Genetics/CrossoverPolicies/CrossoverPolicy.o 
 
 CPP_DEPS += \
-./Random/BaseRNG.d \
-./Random/RandomBitsAndBools.d 
+./Evolution/Genetics/CrossoverPolicies/CrossoverPolicy.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
-Random/%.o: ../Random/%.cpp
+Evolution/Genetics/CrossoverPolicies/%.o: ../Evolution/Genetics/CrossoverPolicies/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross G++ Compiler'
 	g++ -D__GXX_EXPERIMENTAL_CXX0X__ -O0 -g3 -Wall -c -std=c++11  -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
