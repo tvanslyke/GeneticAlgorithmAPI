@@ -23,10 +23,14 @@ C_UPPER_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-src \
-src/Random \
-src/Misc \
-src/Genetic \
-src/Evolvables \
-src/Evolution \
+Utilities/GenericHashing \
+Utilities \
+Random \
+. \
+Evolution \
+Evolution/Genetics/Mutation/Mutators \
+Evolution/Genetics/Mutation \
+Evolution/Genetics \
+Evolution/Genetics/CrosoverPolicies \
+Evolution/Genetics/ChromosomeTypes \
 

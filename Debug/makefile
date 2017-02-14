@@ -8,12 +8,15 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include src/Random/subdir.mk
--include src/Misc/subdir.mk
--include src/Genetic/subdir.mk
--include src/Evolvables/subdir.mk
--include src/Evolution/subdir.mk
--include src/subdir.mk
+-include Utilities/GenericHashing/subdir.mk
+-include Utilities/subdir.mk
+-include Random/subdir.mk
+-include Evolution/Genetics/Mutation/Mutators/subdir.mk
+-include Evolution/Genetics/Mutation/subdir.mk
+-include Evolution/Genetics/CrosoverPolicies/subdir.mk
+-include Evolution/Genetics/ChromosomeTypes/subdir.mk
+-include Evolution/Genetics/subdir.mk
+-include Evolution/subdir.mk
 -include subdir.mk
 -include objects.mk
 
@@ -43,19 +46,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: CS3520_Final
+all: GA_API
 
 # Tool invocations
-CS3520_Final: $(OBJS) $(USER_OBJS)
+GA_API: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross G++ Linker'
-	g++  -o "CS3520_Final" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -lboost_system -lboost_iostreams  -lboost_system -lboost_filesystem -o "GA_API" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(C++_DEPS)$(OBJS)$(C_DEPS)$(CC_DEPS)$(CPP_DEPS)$(EXECUTABLES)$(CXX_DEPS)$(C_UPPER_DEPS) CS3520_Final
+	-$(RM) $(C++_DEPS)$(OBJS)$(C_DEPS)$(CC_DEPS)$(CPP_DEPS)$(EXECUTABLES)$(CXX_DEPS)$(C_UPPER_DEPS) GA_API
 	-@echo ' '
 
 .PHONY: all clean dependents
