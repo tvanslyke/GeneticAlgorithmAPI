@@ -32,12 +32,13 @@
 									<listOptionValue builtIn="false" value="__GXX_EXPERIMENTAL_CXX0X__"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.2028244336" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -std=c++11  -fmessage-length=0" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.dialect.std.1199228225" superClass="gnu.cpp.compiler.option.dialect.std" value="gnu.cpp.compiler.dialect.default" valueType="enumerated"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1694603961" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.1910680420" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.364538478" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="gnu.cpp.link.option.other.333794901" name="Other options (-Xlinker [option])" superClass="gnu.cpp.link.option.other"/>
-								<option id="gnu.cpp.link.option.flags.234359104" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-lboost_system -lboost_iostreams  -lboost_system -lboost_filesystem" valueType="string"/>
+								<option id="gnu.cpp.link.option.flags.234359104" name="Linker flags" superClass="gnu.cpp.link.option.flags" value=" -pthread -lboost_system -lboost_iostreams  -lboost_system -lboost_filesystem" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.971590107" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>

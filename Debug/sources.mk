@@ -33,7 +33,6 @@ Evolution/Genetics/Sampling \
 Evolution/Genetics/Mutation/Mutators \
 Evolution/Genetics/Mutation \
 Evolution/Genetics \
-Evolution/Genetics/CrossoverPolicies/InPlaceCrossover \
 Evolution/Genetics/CrossoverPolicies \
 Evolution/Genetics/ChromosomeTypes \
 

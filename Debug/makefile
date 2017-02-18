@@ -15,7 +15,6 @@ RM := rm -rf
 -include Evolution/Genetics/Sampling/subdir.mk
 -include Evolution/Genetics/Mutation/Mutators/subdir.mk
 -include Evolution/Genetics/Mutation/subdir.mk
--include Evolution/Genetics/CrossoverPolicies/InPlaceCrossover/subdir.mk
 -include Evolution/Genetics/CrossoverPolicies/subdir.mk
 -include Evolution/Genetics/ChromosomeTypes/subdir.mk
 -include Evolution/Genetics/subdir.mk
@@ -55,7 +54,7 @@ all: GA_API
 GA_API: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross G++ Linker'
-	g++ -lboost_system -lboost_iostreams  -lboost_system -lboost_filesystem -o "GA_API" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -pthread -lboost_system -lboost_iostreams  -lboost_system -lboost_filesystem -o "GA_API" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

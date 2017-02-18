@@ -4,13 +4,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../Evolution/Genetics/CrossoverPolicies/CrossoverPolicy.cpp 
+../Evolution/Genetics/CrossoverPolicies/CrossoverPolicy.cpp \
+../Evolution/Genetics/CrossoverPolicies/UniformRandomCrossover.cpp 
 
 OBJS += \
-./Evolution/Genetics/CrossoverPolicies/CrossoverPolicy.o 
+./Evolution/Genetics/CrossoverPolicies/CrossoverPolicy.o \
+./Evolution/Genetics/CrossoverPolicies/UniformRandomCrossover.o 
 
 CPP_DEPS += \
-./Evolution/Genetics/CrossoverPolicies/CrossoverPolicy.d 
+./Evolution/Genetics/CrossoverPolicies/CrossoverPolicy.d \
+./Evolution/Genetics/CrossoverPolicies/UniformRandomCrossover.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

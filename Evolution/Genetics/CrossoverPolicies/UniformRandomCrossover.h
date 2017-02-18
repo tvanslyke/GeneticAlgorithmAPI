@@ -7,20 +7,21 @@
 
 #ifndef GENETICS_CROSOVERPOLICIES_UNIFORMRANDOMCROSSOVER_H_
 #define GENETICS_CROSOVERPOLICIES_UNIFORMRANDOMCROSSOVER_H_
-#include "../../../Evolvable.h"
-#include "../../../../Random/BaseRNG.h"
-#include "../../../../Random/RandomBitsAndBools.h"
+#include "../../Evolvable.h"
+#include "../../../Random/BaseRNG.h"
+#include "../../../Random/RandomBitsAndBools.h"
 #include <iterator>
+#include <iostream>
 class UniformRandomCrossover {
 protected:
-	unsigned int cutoff_;
+	uint_fast64_t cutoff_;
 public:
 	UniformRandomCrossover(double prob);
 	virtual ~UniformRandomCrossover();
 	template <typename It>
 	void cross(It begin1, It end1, It begin2)
 	{
-		cross(begin1, end1, begin2, std::iterator_traits<It>::iterator_tag());
+		cross(begin1, end1, begin2, typename std::iterator_traits<It>::iterator_category());
 	}
 	template <typename It>
 	void cross(It begin1, It end1, It begin2, It dest)
@@ -28,30 +29,25 @@ public:
 		cross(begin1, end1, begin2, std::iterator_traits<It>::iterator_tag());
 	}
 	template <typename It>
-	void cross(It begin1, It end1, It begin2, std::forward_iterator_tag)
+	void cross(It begin1, It end1, It begin2, std::random_access_iterator_tag)
 	{
-		uint_fast64_t rand = 0;
-		It start1, start2, stop1, stop2;
-		start1 = begin1;
-		start2 = begin2;
-		stop1 = begin1;
 		bool polarity = rng::RandomBitsAndBools::get();
-		rand = rng::BaseRNG::getRandomNumber();
-		while(start1 < end1)
+		It stop = It(begin1);
+		while(begin1 < end1)
 		{
-			start1 = stop1;
-			start2 = stop2;
-			while((rand < cutoff_) and (start1 < end1))
+			begin2 += stop - begin1;
+			begin1 = stop;
+			while((rng::BaseRNG::getRandomNumber() < cutoff_) and (stop < end1))
 			{
-				++stop1;
-				++stop2;
-				rand = rng::BaseRNG::getRandomNumber();
+				++stop;
 			}
-			std::swap_ranges(start1, stop1, start2);
+			if(polarity)
+				std::swap_ranges(begin1, stop, begin2);
+			polarity = not polarity;
 		}
 	}
 	template <typename It>
-	void cross(It begin1, It end1, It begin2, It dest, std::forward_iterator_tag)
+	void cross(It begin1, It end1, It begin2, It dest, std::random_access_iterator_tag)
 	{
 		uint_fast64_t rand = 0;
 
