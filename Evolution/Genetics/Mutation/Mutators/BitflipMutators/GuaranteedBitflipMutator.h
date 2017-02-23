@@ -9,6 +9,7 @@
 #define MUTATION_MUTATORS_BITFLIPMUTATORS_GUARANTEEDBITFLIPMUTATOR_H_
 #include <memory>
 #include "BitflipMutator.h"
+#include "../../../../../Random/UniqueIntGenerator.h"
 template <typename T>
 class GuaranteedBitflipMutator:BitflipMutator<T> {
 private:
@@ -25,7 +26,7 @@ public:
 		}
 		else
 		{
-			bitselector = rng::RandomNumbers<size_t>::getUniformRNG(nmin, nmax);
+			bitselector = rng::UniformRNG<T>(nmin, nmax);
 			bitcount = 0;
 		}
 
@@ -43,10 +44,13 @@ public:
 			bitcount = bitselector();
 		}
 		std::vector<size_t> locs = std::vector<size_t>(bitcount);
-		rng::RandomNumbers<size_t>::uniqueIntegers(locs.begin(), locs.end(), 0, type_bits);
+		auto generator = rng::UniqueIntGenerator<size_t>(0, type_bits)
+							.unsorted()
+							.length(bitcount)
+							.lock();
 		for(size_t i = 0; i < bitcount; ++i)
 		{
-			data ^= (1 << locs[i]);
+			data ^= (1 << generator());
 		}
 	}
 	virtual size_t getID() const

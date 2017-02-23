@@ -28,4 +28,5 @@ std::mt19937_64 BaseRNG::twister_(BaseRNG::rd_());
 
 const uint_fast64_t BaseRNG::minm = BaseRNG::twister_.min();
 const uint_fast64_t BaseRNG::maxm = BaseRNG::twister_.max();
+const uint_fast64_t BaseRNG::range = BaseRNG::twister_.max() - BaseRNG::twister_.min();
 }

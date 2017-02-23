@@ -31,7 +31,7 @@ GenericWeakKey::GenericWeakKey(const GenericWeakKey & other):nbytes_(other.nbyte
 	this->mem_ = (void *)(new char[other.nbytes_]);
 	std::copy(((char *)(other.mem_)), ((char *)(other.mem_)) + nbytes_, (char*)this->mem_);
 }
-GenericWeakKey::GenericWeakKey(GenericWeakKey && other)  noexcept:nbytes_(other.nbytes_), hashcode_(other.hashcode_)
+GenericWeakKey::GenericWeakKey(GenericWeakKey && other) :nbytes_(other.nbytes_), hashcode_(other.hashcode_)
 {
 	this->mem_ = other.mem_;
 	std::copy(((char *)(other.mem_)), ((char *)(other.mem_)) + nbytes_, (char*)this->mem_);

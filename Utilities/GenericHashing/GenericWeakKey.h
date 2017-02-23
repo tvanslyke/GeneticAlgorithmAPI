@@ -31,7 +31,7 @@ protected:
 	}
 	GenericWeakKey(size_t & bytecount, size_t & hashcode, std::stack<std::pair<size_t, void*>> & pending);
 	GenericWeakKey(const GenericWeakKey & other);
-	GenericWeakKey(GenericWeakKey && other)  noexcept;
+	GenericWeakKey(GenericWeakKey && other);
 public:
 
 	virtual ~GenericWeakKey();

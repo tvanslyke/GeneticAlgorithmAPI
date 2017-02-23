@@ -16,11 +16,11 @@
  * of class UniformRNG.
  */
 #include <random>
+#include "../Utilities/SharedUtilityManager.h"
 namespace rng{
 
 class BaseRNG
 {
-
 private:
 
 	static std::random_device rd_;
@@ -32,11 +32,15 @@ public:
 	static unsigned getVeryRandomNumber();
 	static const uint_fast64_t minm;
 	static const uint_fast64_t maxm;
+	static const uint_fast64_t range;
 	template <typename T>
 	static void seedRNG(T & rng)
 	{
 		rng(rd_());
 	}
 };
+
+
+
 }/* End namespace rng */
 #endif /* RANDOM_BASERNG_H_ */

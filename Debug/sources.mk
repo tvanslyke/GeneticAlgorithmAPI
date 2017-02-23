@@ -29,10 +29,8 @@ Random \
 . \
 Evolution \
 Evolution/NewGenerationPolicies \
-Evolution/Genetics/Sampling \
 Evolution/Genetics/Mutation/Mutators \
 Evolution/Genetics/Mutation \
 Evolution/Genetics \
 Evolution/Genetics/CrossoverPolicies \
-Evolution/Genetics/ChromosomeTypes \
 

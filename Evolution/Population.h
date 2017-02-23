@@ -10,14 +10,14 @@
 
 #include <memory>
 #include <vector>
-#include "Genetics/CrossoverPolicies/CrossoverPolicy.h"
-#include "Evolvable.h"
+//#include "Genetics/CrossoverPolicies/CrossoverPolicy.h"
+//#include "Evolvable.h"
 
 class Population {
 protected:
 	Population();
-	std::vector<std::shared_ptr<Evolvable>> pop;
-	std::shared_ptr<CrossoverPolicy> crossoverPolicy;
+	//std::vector<std::shared_ptr<Evolvable>> pop;
+	//std::shared_ptr<CrossoverPolicy> crossoverPolicy;
 public:
 	virtual ~Population();
 	virtual void nextGeneration();

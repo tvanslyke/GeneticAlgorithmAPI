@@ -18,7 +18,7 @@ Evolvable::~Evolvable() {
 
 void Evolvable::mutate()
 {
-	this->chromosome->mutate();
+	//this->chromosome->mutate();
 }
 double Evolvable::getFitness() const
 {

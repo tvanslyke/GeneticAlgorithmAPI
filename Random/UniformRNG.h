@@ -16,8 +16,11 @@
 #include <iostream>
 #include <stdexcept>
 #include "../Utilities/SharedUtilityManager.h"
+#include "RandomDistributions.h"
 
-namespace std
+
+
+/*namespace std
 {
 	template <typename T>
 	struct hash<std::pair<T, T>>
@@ -37,7 +40,7 @@ namespace std
 			return seed;
 		}
 	};
-}
+}*/
 
 namespace rng{
 
@@ -79,45 +82,28 @@ template<typename T>
 class UniformRNG<T, typename std::enable_if<std::is_integral<T>::value, T>::type>
 {
 private:
-	static SharedUtilityManager<std::pair<T, T>, std::uniform_int_distribution<T>> dist_manager_;
-	std::pair<T, T> lims_;
+	using ParamType = typename std::uniform_int_distribution<T>::param_type;
 	IntDistRef<T> dist_;
-	static void Init()
-	{
-		static bool initialized = false;
-		if(not initialized)
-		{
-			initialized = true;
-			Reset();
-		}
-	}
-
 public:
-	UniformRNG():UniformRNG<T>(T(0), T(0))
-	{
-		Init();
-	}
+	UniformRNG():UniformRNG<T>(T(0), T(0)){}
 
 	/**
 	 * Create a new UniformRNG for an integral type.
 	 */
-	UniformRNG(T lb, T ub):lims_(lb, ub)
+	UniformRNG(T lb, T ub)
 	{
-		Init();
-		dist_ = dist_manager_.get(lims_.first, lims_.second);
+		assert(lb <=ub);
+		dist_ = RandomDistributions<T>::getDist(lb, ub);
 	}
 	/**
 	 * Create a new UniformRNG for an integral type from a std::pair.
 	 */
-	UniformRNG(std::pair<T, T> lims): lims_(lims)
+	UniformRNG(std::pair<T, T> lims)
 	{
-		Init();
-		dist_ = dist_manager_.get(lims_.first, lims_.second);
+		assert(lims.first <= lims.second);
+		dist_ = RandomDistributions<T>::getDist(lims.first, lims.second);
 	}
-	/**
-	 * Destroy this UniformRNG. Only erase it's instance within the hashtable
-	 * if it is only managed by this instance and the hashtable.
-	 */
+
 	~UniformRNG()
 	{
 	}
@@ -130,7 +116,7 @@ public:
 	}
 	static void Reset()
 	{
-		dist_manager_ = SharedUtilityManager<std::pair<T, T>, std::uniform_int_distribution<T>>();
+		//dist_manager_ = SharedUtilityManager<std::pair<T, T>, std::uniform_int_distribution<T>>();
 	}
 	/**
 	 * Create a new random integer.  Identical to getRandomNumber().
@@ -144,15 +130,24 @@ public:
 		this->dist_ = IntDistRef<T>(other.dist_);
 		return *this;
 	}
+
+	T max()
+	{
+		return dist_->max();
+	}
+	T min()
+	{
+		return dist_->min();
+	}
 };
 
 
 
 template<typename T>
-class UniformRNG<T, typename std::enable_if<!std::is_integral<T>::value, T>::type>
+class UniformRNG<T, typename std::enable_if<not (std::is_integral<T>::value), T>::type>
 {
 private:
-	static SharedUtilityManager<std::pair<T, T>, std::uniform_real_distribution<T>> dist_manager_;
+	using ParamType = typename std::uniform_real_distribution<T>::param_type;
 	std::pair<T, T> lims_;
 	FloatDistRef<T> dist_;
 	static void Init()
@@ -166,34 +161,25 @@ private:
 	}
 
 public:
-	UniformRNG():UniformRNG<T>(T(0), T(0))
-	{
-		Init();
-		std::cout << "h1" << std::endl;
-	}
+	UniformRNG():UniformRNG<T>(T(0), T(0)){}
 
 	/**
 	 * Create a new UniformRNG for an integral type.
 	 */
-	UniformRNG(T lb, T ub):lims_(lb, ub)
+	UniformRNG(T lb, T ub)
 	{
-		Init();
-		std::cout << "h2" << std::endl;
-		dist_ = dist_manager_.get(lims_.first, lims_.second);
+		assert(lb <=ub);
+		dist_ = RandomDistributions<T>::getDist(lb, ub);
 	}
 	/**
 	 * Create a new UniformRNG for an integral type from a std::pair.
 	 */
-	UniformRNG(std::pair<T, T> lims): lims_(lims)
+	UniformRNG(std::pair<T, T> lims)
 	{
-		Init();
-		std::cout << "h3" << std::endl;
-		dist_ = dist_manager_.get(lims_.first, lims_.second);
+		assert(lims.first <= lims.second);
+		dist_ = RandomDistributions<T>::getDist(lims.first, lims.second);
 	}
-	/**
-	 * Destroy this UniformRNG. Only erase it's instance within the hashtable
-	 * if it is only managed by this instance and the hashtable.
-	 */
+
 	~UniformRNG()
 	{
 	}
@@ -207,7 +193,7 @@ public:
 
 	static void Reset()
 	{
-		dist_manager_ = SharedUtilityManager<std::pair<T, T>, std::uniform_real_distribution<T>>();
+		//dist_manager_ = SharedUtilityManager<std::pair<T, T>, std::uniform_real_distribution<T>>();
 	}
 	/**
 	 * Create a new random integer.  Identical to getRandomNumber().
@@ -216,20 +202,26 @@ public:
 	{
 		return (*(this->dist_))(BaseRNG::twister_);
 	}
-	UniformRNG<T> & operator=(const UniformRNG<T> & other)
+
+	T max()
 	{
-		this->dist_ = FloatDistRef<T>(other.dist_);
-		return *this;
+		return dist_->max();
+	}
+	T min()
+	{
+		return dist_->min();
 	}
 };
-template <typename T>
-using RealDistManagerType = SharedUtilityManager<std::pair<T, T>, std::uniform_real_distribution<T>>;
-template <typename T>
-RealDistManagerType<T> UniformRNG<T, typename std::enable_if<!std::is_integral<T>::value, T>::type>::dist_manager_ = RealDistManagerType<T>();
+/*
 template <typename T>
 using IntDistManagerType = SharedUtilityManager<std::pair<T, T>, std::uniform_int_distribution<T>>;
 template <typename T>
 IntDistManagerType<T> UniformRNG<T, typename std::enable_if<std::is_integral<T>::value, T>::type>::dist_manager_ = IntDistManagerType<T>();
+template <typename T>
+using RealDistManagerType = SharedUtilityManager<std::pair<T, T>, std::uniform_real_distribution<T>>;
+template <typename T>
+RealDistManagerType<T> UniformRNG<T, typename std::enable_if<!std::is_integral<T>::value, T>::type>::dist_manager_ = RealDistManagerType<T>();
+*/
 }
 
 #endif /* RANDOMNUMBERS_H_ */

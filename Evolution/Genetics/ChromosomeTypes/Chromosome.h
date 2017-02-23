@@ -13,8 +13,8 @@ private:
 
 protected:
 	Chromosome();
-	void * begin();
-	void * end();
+	virtual void * begin();
+	virtual void * end();
 public:
 	virtual void mutate();
 
