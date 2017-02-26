@@ -15,7 +15,18 @@
 #include <memory>
 #include "Mutation/MutatorManager.h"
 #include "Mutation/Mutators/Mutators.h"
-using std::function;
+
+/**
+ * Gene objects encapsulate the lowest level mutatable (in the genetic sense) object contained
+ * within an implementation of the Evolvable interface.  Genes contain a mutator that mutate
+ * their encapsulated data.
+ * Mutators are provided by the API, but can be extended by users through inheritance and dynamic
+ * polymorphism.
+ *
+ * Genes are the building block of Chromosome objects, from which any Evolvable implementation
+ * must be constructible.
+ *
+ */
 class Gene {
 private:
 	template <template<typename = Gene> class Container = std::vector>

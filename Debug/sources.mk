@@ -27,10 +27,11 @@ Utilities/GenericHashing \
 Utilities \
 Random \
 . \
-Evolution \
 Evolution/NewGenerationPolicies \
 Evolution/Genetics/Mutation/Mutators \
 Evolution/Genetics/Mutation \
 Evolution/Genetics \
 Evolution/Genetics/CrossoverPolicies \
+Evolution/Genetics/ChromosomeTypes \
+Evolution \
 

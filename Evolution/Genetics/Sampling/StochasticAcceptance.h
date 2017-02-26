@@ -13,11 +13,15 @@
 
 
 
-
+/**
+ * SamplingPolicy implementing simple random selection. (kind of useless)
+ *
+ * see: https://en.wikipedia.org/wiki/Fitness_proportionate_selection
+ */
 class StochasticAcceptance: public SamplingPolicy<StochasticAcceptance>
 {
 private:
-	std::vector<std::shared_ptr<Evolvable>> pop;
+	std::vector<Evolvable *> pop;
 	std::vector<double> fits;
 	rng::UniformRNG<size_t> indexer;
 	rng::UniformRNG<double> accepter;
@@ -29,7 +33,7 @@ private:
 public:
 	StochasticAcceptance() {
 		// TODO Auto-generated constructor stub
-		pop = std::vector<std::shared_ptr<Evolvable>>();
+		pop = std::vector<Evolvable>();
 		fits = std::vector<double>();
 		indexer = rng::UniformRNG<size_t>();
 		accepter = rng::UniformRNG<double>();
@@ -40,7 +44,7 @@ public:
 	}
 
 
-	std::shared_ptr<Evolvable> next()
+	Evolvable* next()
 	{
 		auto index = indexer();
 		while(fits[index] < accepter())
@@ -87,6 +91,7 @@ public:
 			++destBegin;
 		}
 	}
+
 	template <typename It>
 	void buildSample(const It & begin, const It & end, std::random_access_iterator_tag)
 	{
@@ -95,11 +100,11 @@ public:
 		auto maxFit = std::numeric_limits<double>::min();
 		fits.resize(len);
 		pop.resize(len);
-		static auto transfer = [this, &ind, &maxFit](const std::shared_ptr<Evolvable> & item)
+		static auto transfer = [this, &ind, &maxFit](const Evolvable* & item)
 		{
 			this->fits[ind] = item->getFitness();
 			if(maxFit < fits[ind])
-			++ind;
+				++ind;
 			return item;
 		};
 		std::transform(begin, end, pop.begin(), transfer);

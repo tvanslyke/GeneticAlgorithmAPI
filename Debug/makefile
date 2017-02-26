@@ -15,6 +15,7 @@ RM := rm -rf
 -include Evolution/Genetics/Mutation/Mutators/subdir.mk
 -include Evolution/Genetics/Mutation/subdir.mk
 -include Evolution/Genetics/CrossoverPolicies/subdir.mk
+-include Evolution/Genetics/ChromosomeTypes/subdir.mk
 -include Evolution/Genetics/subdir.mk
 -include Evolution/subdir.mk
 -include subdir.mk

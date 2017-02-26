@@ -11,35 +11,39 @@
 #include "SamplingPolicy.h"
 
 
-
+/**
+ * SamplingPolicy implementing simple random selection. (kind of useless)
+ *
+ * see: https://en.wikipedia.org/wiki/Simple_random_sample
+ */
 class SimpleRandom: public SamplingPolicy<SimpleRandom> {
 private:
-	std::vector<std::shared_ptr<Evolvable>> pop_;
+	std::vector<Evolvable*> pop_;
 	rng::UniformRNG<size_t> indexer;
 public:
 	template <typename It>
-	void buildSample(const It & begin, const It & end, std::input_iterator_tag)
+	void buildSample(const It & begin, const It & end)
 	{
-		pop_.assign(begin, end);
+		this->pop_.clear();
+		for(It iter = begin; iter != end; ++iter)
+		{
+			pop_.push_back(&(*iter));
+		}
 		indexer = rng::UniformRNG<size_t>(0, pop_.size() - 1);
 	}
 	template <typename It>
-	void sample(const It & begin, const It & end, It destBegin, It destEnd, std::input_iterator_tag)
+	void sample(const It & begin, const It & end, It destBegin, It destEnd)
 	{
-		pop_.assign(begin, end);
-		indexer = rng::UniformRNG<size_t>(0, pop_.size() - 1);
+		indexer = rng::UniformRNG<size_t>(0, std::distance(begin, end) - 1);
 		while(destBegin < destEnd)
 		{
-			*destBegin = next<typename It::value_type>();
+			*destBegin = begin[indexer()];
 		}
 	}
-	template <typename T>
-	T next()
+	Evolvable* next()
 	{
 		return pop_[indexer()];
 	}
-
-
 };
 
 

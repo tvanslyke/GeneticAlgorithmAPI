@@ -9,15 +9,27 @@
 #define EVOLUTION_GENETICS_SAMPLING_STOCHASTICUNIVERSAL_H_
 
 #include "SamplingPolicy.h"
+#include <vector>
+#include <set>
+
+/**
+ * SamplingPolicy implementing stochastic acceptance selection.
+ *
+ * see: https://en.wikipedia.org/wiki/Stochastic_universal_sampling
+ */
 
 class StochasticUniversal:public SamplingPolicy<StochasticUniversal>
 {
 private:
-	//std::vector<>
+
 public:
 	StochasticUniversal();
 	virtual ~StochasticUniversal();
-	virtual void buildSample();
+	template <typename It>
+	void sample(It begin, It end, It & destBegin, It & destEnd, std::input_iterator_tag)
+	{
+
+	}
 };
 
 #endif /* EVOLUTION_GENETICS_SAMPLING_STOCHASTICUNIVERSAL_H_ */

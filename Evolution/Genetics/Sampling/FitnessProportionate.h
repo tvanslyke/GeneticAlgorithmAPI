@@ -16,14 +16,18 @@
 
 
 
-
+/**
+ * SamplingPolicy implementing fitness proportionate selection.
+ *
+ * see: https://en.wikipedia.org/wiki/Fitness_proportionate_selection
+ */
 
 class FitnessProportionate: public SamplingPolicy<FitnessProportionate> {
-	using FitPair = std::pair<std::shared_ptr<Evolvable>,double>;
+	using FitPair = std::pair<Evolvable*,double>;
 	using BaseRNG = rng::BaseRNG;
 	class FitPairGreater
 	{
-		using FitPair = std::pair<std::shared_ptr<Evolvable>,double>;
+		using FitPair = std::pair<Evolvable*, double>;
 	public:
 		bool operator()(const FitPair & a, const FitPair & b) const
 		{
@@ -36,12 +40,12 @@ class FitnessProportionate: public SamplingPolicy<FitnessProportionate> {
 	};
 protected:
 	std::vector<uint_fast64_t> cumfits_;
-	std::vector<std::shared_ptr<Evolvable>> pop_;
+	std::vector<Evolvable*> pop_;
 
 public:
 	//virtual ~FitnessProportionate();
 	template <typename It>
-	void buildSample(const It & begin, const It & end, std::input_iterator_tag)
+	void buildSample(const It & begin, const It & end)
 	{
 		double totalFit = 0.0;
 		std::multiset<FitPair,FitPairGreater> sortedPop;
@@ -71,16 +75,16 @@ public:
 		cout << endl;
 	}
 	template <typename It>
-	void sample(const It & begin, const It & end, It destBegin, It destEnd, std::input_iterator_tag)
+	void sample(const It & begin, const It & end, It destBegin, It destEnd)
 	{
-		buildSample(begin, end, std::forward_iterator_tag());
+		buildSample(begin, end);
 		while(destBegin != destEnd)
 		{
 			*destBegin = next();
 			++destBegin;
 		}
 	}
-	std::shared_ptr<Evolvable> next()
+	Evolvable* next()
 	{
 		// generate random 64bit uint
 		cout << "a ";

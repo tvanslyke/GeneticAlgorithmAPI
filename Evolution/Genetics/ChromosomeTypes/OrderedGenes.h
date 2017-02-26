@@ -26,7 +26,6 @@ private:
 	{
 		return this->genes_.begin();
 	}
-
 	Container<Gene>::iterator end()
 	{
 		return this->genes_.end();
