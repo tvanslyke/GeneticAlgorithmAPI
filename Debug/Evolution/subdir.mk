@@ -4,13 +4,16 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../Evolution/Evolvable.cpp 
+../Evolution/Evolvable.cpp \
+../Evolution/Population.cpp 
 
 OBJS += \
-./Evolution/Evolvable.o 
+./Evolution/Evolvable.o \
+./Evolution/Population.o 
 
 CPP_DEPS += \
-./Evolution/Evolvable.d 
+./Evolution/Evolvable.d \
+./Evolution/Population.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

@@ -1,38 +1,41 @@
-Main.d: ../Main.cpp ../Evolution/Genetics/Sampling/FitnessProportionate.h \
- ../Evolution/Genetics/Sampling/SamplingPolicy.h \
- ../Evolution/Genetics/Sampling/../../Evolvable.h \
- ../Evolution/Genetics/Sampling/../../../Random/RandomNumbers.h \
- ../Evolution/Genetics/Sampling/../../../Random/RandomDistributions.h \
- ../Evolution/Genetics/Sampling/../../../Random/../Utilities/SharedUtilityManager.h \
- ../Evolution/Genetics/Sampling/../../../Random/../Utilities/GenericHashing/GenericHashing.h \
- ../Evolution/Genetics/Sampling/../../../Random/../Utilities/GenericHashing/GenericStrongKey.h \
- ../Evolution/Genetics/Sampling/../../../Random/../Utilities/GenericHashing/GenericWeakKey.h \
- ../Evolution/Genetics/Sampling/../../../Random/UniformRNG.h \
- ../Evolution/Genetics/Sampling/../../../Random/BaseRNG.h \
+Main.d: ../Main.cpp ../Evolution/Sampling/StochasticAcceptance.h \
+ ../Evolution/Sampling/../Evolvable.h \
+ ../Evolution/Sampling/../Genetics/ChromosomeTypes/Chromosome.h \
+ ../Evolution/Sampling/../../Random/RandomNumbers.h \
+ ../Evolution/Sampling/../../Random/RandomDistributions.h \
+ ../Evolution/Sampling/../../Random/../Utilities/SharedUtilityManager.h \
+ ../Evolution/Sampling/../../Random/../Utilities/GenericHashing/GenericHashing.h \
+ ../Evolution/Sampling/../../Random/../Utilities/GenericHashing/GenericStrongKey.h \
+ ../Evolution/Sampling/../../Random/../Utilities/GenericHashing/GenericWeakKey.h \
+ ../Evolution/Sampling/../../Random/UniformRNG.h \
+ ../Evolution/Sampling/../../Random/BaseRNG.h \
+ ../Evolution/Sampling/FitnessProportionate.h \
  ../Random/UniqueIntGenerator.h ../Random/UniformRNG.h \
  ../Utilities/more_type_traits.h
 
-../Evolution/Genetics/Sampling/FitnessProportionate.h:
+../Evolution/Sampling/StochasticAcceptance.h:
 
-../Evolution/Genetics/Sampling/SamplingPolicy.h:
+../Evolution/Sampling/../Evolvable.h:
 
-../Evolution/Genetics/Sampling/../../Evolvable.h:
+../Evolution/Sampling/../Genetics/ChromosomeTypes/Chromosome.h:
 
-../Evolution/Genetics/Sampling/../../../Random/RandomNumbers.h:
+../Evolution/Sampling/../../Random/RandomNumbers.h:
 
-../Evolution/Genetics/Sampling/../../../Random/RandomDistributions.h:
+../Evolution/Sampling/../../Random/RandomDistributions.h:
 
-../Evolution/Genetics/Sampling/../../../Random/../Utilities/SharedUtilityManager.h:
+../Evolution/Sampling/../../Random/../Utilities/SharedUtilityManager.h:
 
-../Evolution/Genetics/Sampling/../../../Random/../Utilities/GenericHashing/GenericHashing.h:
+../Evolution/Sampling/../../Random/../Utilities/GenericHashing/GenericHashing.h:
 
-../Evolution/Genetics/Sampling/../../../Random/../Utilities/GenericHashing/GenericStrongKey.h:
+../Evolution/Sampling/../../Random/../Utilities/GenericHashing/GenericStrongKey.h:
 
-../Evolution/Genetics/Sampling/../../../Random/../Utilities/GenericHashing/GenericWeakKey.h:
+../Evolution/Sampling/../../Random/../Utilities/GenericHashing/GenericWeakKey.h:
 
-../Evolution/Genetics/Sampling/../../../Random/UniformRNG.h:
+../Evolution/Sampling/../../Random/UniformRNG.h:
 
-../Evolution/Genetics/Sampling/../../../Random/BaseRNG.h:
+../Evolution/Sampling/../../Random/BaseRNG.h:
+
+../Evolution/Sampling/FitnessProportionate.h:
 
 ../Random/UniqueIntGenerator.h:
 

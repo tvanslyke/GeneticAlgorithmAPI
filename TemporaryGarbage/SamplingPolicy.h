@@ -7,8 +7,8 @@
 
 #ifndef EVOLUTION_GENETICS_SAMPLING_SAMPLINGPOLICY_H_
 #define EVOLUTION_GENETICS_SAMPLING_SAMPLINGPOLICY_H_
-#include "../../Evolvable.h"
-#include "../../../Random/RandomNumbers.h"
+#include "../Evolution/Evolvable.h"
+#include "../Random/RandomNumbers.h"
 #include <iterator>
 #include <type_traits>
 //https://en.wikipedia.org/wiki/Alias_method
@@ -25,6 +25,7 @@
  */
 template <typename  PolicyType>
 class SamplingPolicy {
+private:
 public:
 	SamplingPolicy()
 	{
@@ -41,11 +42,10 @@ public:
 	 * @param end - random access iterator to the end of the population.
 	 */
 	template <typename It>
-	typename std::enable_if<std::is_base_of<Evolvable, typename It::value_type>::value, void>::type
-	buildSample(It begin, It end)
+	void buildSample(It begin, It end)
 	{
-		(*static_cast<PolicyType*>(this)).
-				buildSample<It>(begin, end, typename std::iterator_traits<It>::iterator_category());
+		static_assert(std::is_base_of<Evolvable, typename It::value_type>::value, "[SamplingPolicy::buildSample()] Cannot use a sampling policy with iterator of non-Evolvables.");
+		(static_cast<PolicyType*>(this))->buildSample<It>(begin, end);//, typename std::iterator_traits<It>::iterator_category());
 	}
 	/**
 	 * Constructs a new sample from an existing population.
@@ -57,10 +57,10 @@ public:
 	 *
 	 */
 	template <typename It>
-	typename std::enable_if<std::is_base_of<Evolvable, typename It::value_type>::value, void>::type
-	sample(It begin, It end, It & destBegin, It & destEnd)
+	void sample(It begin, It end, It & destBegin, It & destEnd)
 	{
-		(*static_cast<PolicyType*>(this)).buildSample(begin, end, destBegin, destEnd);
+		static_assert(std::is_base_of<Evolvable, typename It::value_type>::value, "[SamplingPolicy::sample()] Cannot use a sampling policy with iterator of non-Evolvables.");
+		(static_cast<PolicyType*>(this))->buildSample(begin, end, destBegin, destEnd);
 	}
 	/**
 	 * Obtain the next element from the sample.
@@ -68,7 +68,7 @@ public:
 	 */
 	Evolvable * next()
 	{
-		return (*static_cast<PolicyType*>(this)).next();
+		return (static_cast<PolicyType*>(this))->next();
 	}
 	/**
 	 * Clear any containers within the SamplingPolicy. (not all implementations necessarily require this method)
@@ -76,7 +76,7 @@ public:
 	 */
 	void clear()
 	{
-		(*static_cast<PolicyType*>(this)).clear();
+		(static_cast<PolicyType*>(this))->clear();
 	}
 };
 

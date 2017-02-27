@@ -7,7 +7,8 @@
 
 // -pthread -lboost_system -lboost_iostreams  -lboost_system -lboost_filesystem
 
-#include "Evolution/Genetics/Sampling/FitnessProportionate.h"
+#include "Evolution/Sampling/StochasticAcceptance.h"
+#include "Evolution/Sampling/FitnessProportionate.h"
 #include <vector>
 #include <iostream>
 
@@ -37,6 +38,7 @@ public:
 		return this->val;
 	}
 };
+
 
 using namespace rng;
 int main(void)

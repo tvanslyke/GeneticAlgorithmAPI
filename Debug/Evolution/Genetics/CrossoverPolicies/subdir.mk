@@ -4,12 +4,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../Evolution/Genetics/CrossoverPolicies/NPointCrossover.cpp \
 ../Evolution/Genetics/CrossoverPolicies/UniformRandomCrossover.cpp 
 
 OBJS += \
+./Evolution/Genetics/CrossoverPolicies/NPointCrossover.o \
 ./Evolution/Genetics/CrossoverPolicies/UniformRandomCrossover.o 
 
 CPP_DEPS += \
+./Evolution/Genetics/CrossoverPolicies/NPointCrossover.d \
 ./Evolution/Genetics/CrossoverPolicies/UniformRandomCrossover.d 
 
 

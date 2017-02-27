@@ -10,25 +10,20 @@
 
 #include <memory>
 #include <vector>
-#include "Genetics/Sampling/SamplingPolicy.h"
-//#include "Genetics/CrossoverPolicies/CrossoverPolicy.h"
-//#include "Evolvable.h"
-//class EvolvableImpl =
-template <
-class EvolvableImpl,
-class SP,
-class CP,
-class = typename std::enable_if<std::is_base_of<Evolvable, EvolvableImpl>::value, EvolvableImpl>::type>
+
+#include "Genetics/CrossoverPolicies/CrossoverPolicy.h"
+#include "Evolvable.h"
+template <class Ev,class SP,class CP, class = typename std::enable_if<std::is_base_of<Evolvable, Ev>::value, Ev>::type>
 class Population;
 
-template <class EvolvableImpl,class SP,class CP>
-class Population<EvolvableImpl, SP, CP>
+template <class Ev,class SP,class CP>
+class Population<Ev, SP, CP>
 {
 protected:
 	Population();
-	std::vector<EvolvableImpl> pop;
-	SamplingPolicy<SP> sampler;
-	//std::shared_ptr<CrossoverPolicy> crossoverPolicy;
+	std::vector<Ev> pop;
+	std::unique_ptr<SamplingPolicy<SP>> sampler;
+	std::unique_ptr<CrossoverPolicy<CP>> crosser;
 public:
 	virtual ~Population();
 	virtual void nextGeneration();

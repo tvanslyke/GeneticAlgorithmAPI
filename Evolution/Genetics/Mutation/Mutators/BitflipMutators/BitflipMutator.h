@@ -38,10 +38,7 @@ public:
 	{
 
 	}
-	virtual T getValue(boost::any & data)
-	{
-		return boost::any_cast<T>(data);
-	}
+
 	virtual size_t getID() const
 	{
 		return BitflipMutator<T>::mutatorID;

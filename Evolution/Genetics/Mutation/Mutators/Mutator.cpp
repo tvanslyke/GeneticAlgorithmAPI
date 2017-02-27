@@ -29,8 +29,5 @@ void Mutator::mutate(boost::any & data)
 
 }
 
-int Mutator::getValue(boost::any)
-{
-	return 0;
-}
+
 const size_t Mutator::mutatorID = 0;

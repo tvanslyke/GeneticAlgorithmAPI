@@ -11,8 +11,8 @@
 #include <functional>
 #include <vector>
 #include <algorithm>
-#include "SamplingPolicy.h"
-#include "../../../Random/RandomNumbers.h"
+#include "../Evolvable.h"
+#include "../../Random/RandomNumbers.h"
 
 
 
@@ -22,7 +22,7 @@
  * see: https://en.wikipedia.org/wiki/Fitness_proportionate_selection
  */
 
-class FitnessProportionate: public SamplingPolicy<FitnessProportionate> {
+class FitnessProportionate {
 	using FitPair = std::pair<Evolvable*,double>;
 	using BaseRNG = rng::BaseRNG;
 	class FitPairGreater
@@ -43,6 +43,11 @@ protected:
 	std::vector<Evolvable*> pop_;
 
 public:
+	FitnessProportionate()
+	{
+		cumfits_ = std::vector<uint_fast64_t>(0);
+		pop_ = std::vector<Evolvable*>(0);
+	}
 	//virtual ~FitnessProportionate();
 	template <typename It>
 	void buildSample(const It & begin, const It & end)
@@ -52,16 +57,22 @@ public:
 		auto ins = sortedPop.begin();
 		for(auto iter = begin; iter != end; ++iter)
 		{
-			ins = sortedPop.insert(std::make_pair(*iter, (*iter)->getFitness()));
+			ins = sortedPop.insert(FitPair(static_cast<Evolvable*>(&(*iter)), (*iter).getFitness()));
 			totalFit += ins->second;
 		}
-		cumfits_.resize(0);
-		pop_.resize(0);
+		cumfits_.clear();
+		pop_.clear();
+		cout << cumfits_.size() << endl;
 		ins = sortedPop.begin();
+
 		auto scaleToInt = [&totalFit](const double & num)->uint_fast64_t{return uint_fast64_t(BaseRNG::range * (num / totalFit) + BaseRNG::minm);};
+		cout << ins->second << endl;
+
 		cumfits_.push_back(scaleToInt(ins->second));
+
 		pop_.push_back(ins->first);
 		ins = sortedPop.erase(ins);
+
 		while(not sortedPop.empty())
 		{
 			cumfits_.push_back(scaleToInt(ins->second) + cumfits_.back());

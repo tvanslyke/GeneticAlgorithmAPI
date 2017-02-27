@@ -20,7 +20,6 @@ public:
 	virtual ~Mutator();
 	virtual size_t getID() const;
 	virtual void mutate(boost::any & data);
-	int getValue(boost::any);
 	static const size_t mutatorID;
 };
 

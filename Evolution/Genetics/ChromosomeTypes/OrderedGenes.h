@@ -30,7 +30,6 @@ private:
 	{
 		return this->genes_.end();
 	}
-
 	Gene & front()
 	{
 		return this->genes_.front();

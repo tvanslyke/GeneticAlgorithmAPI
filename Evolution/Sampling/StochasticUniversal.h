@@ -8,9 +8,11 @@
 #ifndef EVOLUTION_GENETICS_SAMPLING_STOCHASTICUNIVERSAL_H_
 #define EVOLUTION_GENETICS_SAMPLING_STOCHASTICUNIVERSAL_H_
 
-#include "SamplingPolicy.h"
+
 #include <vector>
 #include <set>
+#include "../Evolvable.h"
+#include "../../Random/RandomNumbers.h"
 
 /**
  * SamplingPolicy implementing stochastic acceptance selection.
@@ -18,7 +20,7 @@
  * see: https://en.wikipedia.org/wiki/Stochastic_universal_sampling
  */
 
-class StochasticUniversal:public SamplingPolicy<StochasticUniversal>
+class StochasticUniversal
 {
 private:
 

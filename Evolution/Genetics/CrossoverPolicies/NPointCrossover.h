@@ -18,16 +18,8 @@ private:
 	rng::UniqueIntGenerator<size_t> generator;
 	const size_t nPoints;
 public:
-	NPointCrossover(size_t n):nPoints(n)
-	{
-
-		generator = rng::UniqueIntGenerator<size_t>(0u, 0u, nPoints).sorted(rng::ASCENDING);
-	}
-	virtual ~NPointCrossover()
-	{
-
-	}
-
+	NPointCrossover(size_t n);
+	virtual ~NPointCrossover();
 	template <typename It>
 	void operator()(It begin1, It end1, It begin2, std::forward_iterator_tag)
 	{

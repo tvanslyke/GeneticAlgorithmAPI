@@ -10,21 +10,20 @@
 
 #include <memory>
 
-//#include "Genetics/ChromosomeTypes/Chromosome.h"
-
+#include "Genetics/ChromosomeTypes/Chromosome.h"
 class Evolvable {
 	//friend class CrossoverPolicy;
 private:
 
 protected:
 	Evolvable();
-	//std::shared_ptr<Chromosome> chromosome;
+	Chromosome * chromosome;
 
 public:
+
 	virtual ~Evolvable();
 	virtual void mutate();
 	virtual double getFitness() const;
-
 
 };
 

@@ -58,7 +58,7 @@ public:
 	template <typename T>
 	T getValue() const
 	{
-		return this->mutator_->getValue(data_);
+		return boost::any_cast<T>(data_);
 	}
 };
 
