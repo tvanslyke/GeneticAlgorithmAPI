@@ -7,49 +7,68 @@
 
 #ifndef MUTATION_MUTATORKEY_H_
 #define MUTATION_MUTATORKEY_H_
-#include <cstdlib>
-#include <typeinfo>
 #include "Mutators/Mutator.h"
 #include <boost/functional/hash.hpp>
-#include "../../../Utilities/GenericHashing/GenericWeakKey.h"
+#include "../../../Utilities/GenericWeakKey.h"
+#include "../../../Utilities/TypeNum.h"
 
+/**
+ * Key used for looking up mutators in a hashtable.
+ * Derives from GenericWeaKey to delay calling the constructor.
+ *
+ * @author Timothy Van Slyke
+ */
 class MutatorKey: public GenericWeakKey {
 protected:
-
-	MutatorKey(size_t & bytecount, size_t & hashcode, std::stack<std::pair<size_t, void*>> & pending, const size_t & id);
+	/**
+	 * Only constructor is private
+	 * @param id - Unique number assigned to the requested mutator type.
+	 */
+	MutatorKey(size_t id);
 public:
-	template <typename MutatorType, typename ... Types>
-	static MutatorKey makeMutatorKey(Types ... args)
+	/**
+	 * Hash function to use when hashing MutatorKey objects.
+	 */
+	class Hash
 	{
-		size_t bytecount = 0;
-		size_t hashcode = 0;
-		std::stack<std::pair<size_t, void*>>  pending = std::stack<std::pair<size_t, void*>>();
-		GenericWeakKey::buildGenericKeyParams<Types...>(hashcode, bytecount, pending, args...);
-		return MutatorKey(bytecount, hashcode, pending, MutatorType::mutatorID);
+	public:
+		/**
+		 * Hash a MutatorKey.
+		 * @param key - the key to hash.
+		 * @return the hash of the key.
+		 */
+		size_t operator()(const MutatorKey & key) const;
+	};
+	/**
+	 * Factory method for creating MutatorKeys.
+	 * @param args - Arguments to pass to the constructor for mutator type M.
+	 * @return the MutatorKey instance.
+	 */
+	template <typename M, typename ... T>
+	static MutatorKey makeMutatorKey(const T & ... args)
+	{
+		// initialize the key.
+		auto mk = MutatorKey(TypeNum::getNum<M>());
+		// finalize the state of the MutatorKey
+		mk.buildGenericKey(0, args ...);
+		return mk;
 	}
-	virtual ~MutatorKey();
+	/** Default destructor. */
+	virtual ~MutatorKey() = default;
 
-	bool operator==(MutatorKey && other) const;
+	/**
+	 * Equality testing for hashtable lookup.
+	 * @param other - the other MutatorKey.
+	 * @return true if keys are equivalent.
+	 */
 	bool operator==(const MutatorKey & other) const;
 
+	/**
+	 * Unique number automatically assigned to mutators of type M.
+	 * (different for each mutator type)
+	 */
 	const size_t id_;
 };
-
-namespace std
-{
-	template <>
-	struct hash<MutatorKey>
-	{
-		size_t operator()(const MutatorKey & key) const
-		{
-			return key.getHash();
-		}
-		size_t operator()(MutatorKey && key) const
-		{
-			return key.getHash();
-		}
-	};
-}
 
 
 

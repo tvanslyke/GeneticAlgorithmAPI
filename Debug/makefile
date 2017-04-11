@@ -8,15 +8,14 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include Utilities/GenericHashing/subdir.mk
 -include Utilities/subdir.mk
 -include Random/subdir.mk
+-include Examples/Automata/subdir.mk
 -include Evolution/Genetics/Mutation/Mutators/subdir.mk
+-include Evolution/Genetics/Mutation/MutationPolicies/subdir.mk
 -include Evolution/Genetics/Mutation/subdir.mk
 -include Evolution/Genetics/CrossoverPolicies/subdir.mk
--include Evolution/Genetics/ChromosomeTypes/subdir.mk
 -include Evolution/Genetics/subdir.mk
--include Evolution/subdir.mk
 -include subdir.mk
 -include objects.mk
 

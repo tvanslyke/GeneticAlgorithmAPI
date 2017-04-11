@@ -23,14 +23,13 @@ C_UPPER_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-Utilities/GenericHashing \
 Utilities \
 Random \
 . \
-Evolution \
+Examples/Automata \
 Evolution/Genetics/Mutation/Mutators \
 Evolution/Genetics/Mutation \
+Evolution/Genetics/Mutation/MutationPolicies \
 Evolution/Genetics \
 Evolution/Genetics/CrossoverPolicies \
-Evolution/Genetics/ChromosomeTypes \
 

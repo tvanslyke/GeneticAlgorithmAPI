@@ -6,28 +6,16 @@
  */
 
 #include "Mutator.h"
+#include "../../../../Utilities/TypeNum.h"
 
 
 
-
-Mutator::Mutator()
+const size_t Mutator::getID() const
 {
-	
-}
-
-
-Mutator::~Mutator()
-{
-
-}
-size_t Mutator::getID() const
-{
-	return Mutator::mutatorID;
+	return TypeNum::getNum<Mutator>();
 }
 void Mutator::mutate(boost::any & data)
 {
 
 }
 
-
-const size_t Mutator::mutatorID = 0;

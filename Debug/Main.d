@@ -1,44 +1,184 @@
-Main.d: ../Main.cpp ../Evolution/Sampling/StochasticAcceptance.h \
- ../Evolution/Sampling/../Evolvable.h \
- ../Evolution/Sampling/../Genetics/ChromosomeTypes/Chromosome.h \
- ../Evolution/Sampling/../../Random/RandomNumbers.h \
- ../Evolution/Sampling/../../Random/RandomDistributions.h \
- ../Evolution/Sampling/../../Random/../Utilities/SharedUtilityManager.h \
- ../Evolution/Sampling/../../Random/../Utilities/GenericHashing/GenericHashing.h \
- ../Evolution/Sampling/../../Random/../Utilities/GenericHashing/GenericStrongKey.h \
- ../Evolution/Sampling/../../Random/../Utilities/GenericHashing/GenericWeakKey.h \
- ../Evolution/Sampling/../../Random/UniformRNG.h \
- ../Evolution/Sampling/../../Random/BaseRNG.h \
- ../Evolution/Sampling/FitnessProportionate.h \
- ../Random/UniqueIntGenerator.h ../Random/UniformRNG.h \
- ../Utilities/more_type_traits.h
+Main.d: ../Main.cpp ../Examples/Automata/Simulation.h \
+ ../Examples/Automata/../../SamplingPolicies.h \
+ ../Examples/Automata/../../Evolution/Sampling/FitnessProportionate.h \
+ ../Examples/Automata/../../Evolution/Sampling/../Evolvable.h \
+ ../Examples/Automata/../../Evolution/Sampling/../Genetics/DynamicChromosome.h \
+ ../Examples/Automata/../../Evolution/Sampling/../Genetics/Gene.h \
+ ../Examples/Automata/../../Evolution/Sampling/../Genetics/Mutation/MutatorManager.h \
+ ../Examples/Automata/../../Evolution/Sampling/../Genetics/Mutation/../../../Utilities/SharedUtilityManager.h \
+ ../Examples/Automata/../../Evolution/Sampling/../Genetics/Mutation/Mutators/Mutator.h \
+ ../Examples/Automata/../../Evolution/Sampling/../Genetics/Mutation/MutatorKey.h \
+ ../Examples/Automata/../../Evolution/Sampling/../Genetics/Mutation/../../../Utilities/GenericWeakKey.h \
+ ../Examples/Automata/../../Evolution/Sampling/../Genetics/Mutation/../../../Utilities/TypeNum.h \
+ ../Examples/Automata/../../Evolution/Sampling/../Genetics/StaticChromosome.h \
+ ../Examples/Automata/../../Evolution/Sampling/../Genetics/DynamicChromosome.h \
+ ../Examples/Automata/../../Evolution/Sampling/../../MutationPolicies.h \
+ ../Examples/Automata/../../Evolution/Sampling/../../Evolution/Genetics/Mutation/MutationPolicies/GuaranteedMutation.h \
+ ../Examples/Automata/../../Evolution/Sampling/../../Evolution/Genetics/Mutation/MutationPolicies/../../../../Random/UniqueIntGenerator.h \
+ ../Examples/Automata/../../Evolution/Sampling/../../Evolution/Genetics/Mutation/MutationPolicies/../../../../Random/UniformRNG.h \
+ ../Examples/Automata/../../Evolution/Sampling/../../Evolution/Genetics/Mutation/MutationPolicies/../../../../Random/BaseRNG.h \
+ ../Examples/Automata/../../Evolution/Sampling/../../Evolution/Genetics/Mutation/MutationPolicies/UniformRandomMutation.h \
+ ../Examples/Automata/../../Evolution/Sampling/../../Evolution/Genetics/Mutation/MutationPolicies/../../../../Random/Decisions.h \
+ ../Examples/Automata/../../Evolution/Sampling/../../RandomNumbers.h \
+ ../Examples/Automata/../../Evolution/Sampling/StochasticAcceptance.h \
+ ../Examples/Automata/../../GenerationPolicies.h \
+ ../Examples/Automata/../../Evolution/GenerationPolicies/ConstantSize.h \
+ ../Examples/Automata/../../Evolution/GenerationPolicies/../Evolvable.h \
+ ../Examples/Automata/../../Evolution/GenerationPolicies/../../CrossoverPolicies.h \
+ ../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/CrossoverPolicy.h \
+ ../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/../DynamicChromosome.h \
+ ../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/../StaticChromosome.h \
+ ../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/NPointCrossover.h \
+ ../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/CrossoverPolicy.h \
+ ../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/../../../Random/RandomBitsAndBools.h \
+ ../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/../../../Random/UniqueIntGenerator.h \
+ ../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/UniformRandomCrossover.h \
+ ../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/../../../Random/BaseRNG.h \
+ ../Examples/Automata/../../CrossoverPolicies.h \
+ ../Examples/Automata/../../MutationPolicies.h \
+ ../Examples/Automata/../../RandomNumbers.h \
+ ../Examples/Automata/../../Evolution/Population.h \
+ ../Examples/Automata/../../Evolution/Genetics/CrossoverPolicies/CrossoverPolicy.h \
+ ../Examples/Automata/../../Evolution/Genetics/CrossoverPolicies/NPointCrossover.h \
+ ../Examples/Automata/../../Evolution/Genetics/CrossoverPolicies/UniformRandomCrossover.h \
+ ../Examples/Automata/../../Evolution/GenerationPolicies/ConstantSize.h \
+ ../Examples/Automata/../../Evolution/Evolvable.h \
+ ../Examples/Automata/../../Mutators.h \
+ ../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/RandIncrMutator.h \
+ ../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/../../../../Random/UniformRNG.h \
+ ../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/MutatorBase.h \
+ ../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/Mutator.h \
+ ../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/../../../../Utilities/TypeNum.h \
+ ../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/BitflipMutators/BitflipMutators.h \
+ ../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/BitflipMutators/UniformBitflipMutator.h \
+ ../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/BitflipMutators/../../../../../Random/BaseRNG.h \
+ ../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/BitflipMutators/GuaranteedBitflipMutator.h \
+ ../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/BitflipMutators/../../../../../Random/UniqueIntGenerator.h \
+ ../Examples/Automata/Automaton.h \
+ ../Examples/Automata/../../Evolution/Evolvable.h \
+ ../Examples/Automata/Vec.h ../Examples/Automata/PID.h \
+ ../Examples/Automata/Food.h ../Examples/Automata/NormalDist.h
 
-../Evolution/Sampling/StochasticAcceptance.h:
+../Examples/Automata/Simulation.h:
 
-../Evolution/Sampling/../Evolvable.h:
+../Examples/Automata/../../SamplingPolicies.h:
 
-../Evolution/Sampling/../Genetics/ChromosomeTypes/Chromosome.h:
+../Examples/Automata/../../Evolution/Sampling/FitnessProportionate.h:
 
-../Evolution/Sampling/../../Random/RandomNumbers.h:
+../Examples/Automata/../../Evolution/Sampling/../Evolvable.h:
 
-../Evolution/Sampling/../../Random/RandomDistributions.h:
+../Examples/Automata/../../Evolution/Sampling/../Genetics/DynamicChromosome.h:
 
-../Evolution/Sampling/../../Random/../Utilities/SharedUtilityManager.h:
+../Examples/Automata/../../Evolution/Sampling/../Genetics/Gene.h:
 
-../Evolution/Sampling/../../Random/../Utilities/GenericHashing/GenericHashing.h:
+../Examples/Automata/../../Evolution/Sampling/../Genetics/Mutation/MutatorManager.h:
 
-../Evolution/Sampling/../../Random/../Utilities/GenericHashing/GenericStrongKey.h:
+../Examples/Automata/../../Evolution/Sampling/../Genetics/Mutation/../../../Utilities/SharedUtilityManager.h:
 
-../Evolution/Sampling/../../Random/../Utilities/GenericHashing/GenericWeakKey.h:
+../Examples/Automata/../../Evolution/Sampling/../Genetics/Mutation/Mutators/Mutator.h:
 
-../Evolution/Sampling/../../Random/UniformRNG.h:
+../Examples/Automata/../../Evolution/Sampling/../Genetics/Mutation/MutatorKey.h:
 
-../Evolution/Sampling/../../Random/BaseRNG.h:
+../Examples/Automata/../../Evolution/Sampling/../Genetics/Mutation/../../../Utilities/GenericWeakKey.h:
 
-../Evolution/Sampling/FitnessProportionate.h:
+../Examples/Automata/../../Evolution/Sampling/../Genetics/Mutation/../../../Utilities/TypeNum.h:
 
-../Random/UniqueIntGenerator.h:
+../Examples/Automata/../../Evolution/Sampling/../Genetics/StaticChromosome.h:
 
-../Random/UniformRNG.h:
+../Examples/Automata/../../Evolution/Sampling/../Genetics/DynamicChromosome.h:
 
-../Utilities/more_type_traits.h:
+../Examples/Automata/../../Evolution/Sampling/../../MutationPolicies.h:
+
+../Examples/Automata/../../Evolution/Sampling/../../Evolution/Genetics/Mutation/MutationPolicies/GuaranteedMutation.h:
+
+../Examples/Automata/../../Evolution/Sampling/../../Evolution/Genetics/Mutation/MutationPolicies/../../../../Random/UniqueIntGenerator.h:
+
+../Examples/Automata/../../Evolution/Sampling/../../Evolution/Genetics/Mutation/MutationPolicies/../../../../Random/UniformRNG.h:
+
+../Examples/Automata/../../Evolution/Sampling/../../Evolution/Genetics/Mutation/MutationPolicies/../../../../Random/BaseRNG.h:
+
+../Examples/Automata/../../Evolution/Sampling/../../Evolution/Genetics/Mutation/MutationPolicies/UniformRandomMutation.h:
+
+../Examples/Automata/../../Evolution/Sampling/../../Evolution/Genetics/Mutation/MutationPolicies/../../../../Random/Decisions.h:
+
+../Examples/Automata/../../Evolution/Sampling/../../RandomNumbers.h:
+
+../Examples/Automata/../../Evolution/Sampling/StochasticAcceptance.h:
+
+../Examples/Automata/../../GenerationPolicies.h:
+
+../Examples/Automata/../../Evolution/GenerationPolicies/ConstantSize.h:
+
+../Examples/Automata/../../Evolution/GenerationPolicies/../Evolvable.h:
+
+../Examples/Automata/../../Evolution/GenerationPolicies/../../CrossoverPolicies.h:
+
+../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/CrossoverPolicy.h:
+
+../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/../DynamicChromosome.h:
+
+../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/../StaticChromosome.h:
+
+../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/NPointCrossover.h:
+
+../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/CrossoverPolicy.h:
+
+../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/../../../Random/RandomBitsAndBools.h:
+
+../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/../../../Random/UniqueIntGenerator.h:
+
+../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/UniformRandomCrossover.h:
+
+../Examples/Automata/../../Evolution/GenerationPolicies/../../Evolution/Genetics/CrossoverPolicies/../../../Random/BaseRNG.h:
+
+../Examples/Automata/../../CrossoverPolicies.h:
+
+../Examples/Automata/../../MutationPolicies.h:
+
+../Examples/Automata/../../RandomNumbers.h:
+
+../Examples/Automata/../../Evolution/Population.h:
+
+../Examples/Automata/../../Evolution/Genetics/CrossoverPolicies/CrossoverPolicy.h:
+
+../Examples/Automata/../../Evolution/Genetics/CrossoverPolicies/NPointCrossover.h:
+
+../Examples/Automata/../../Evolution/Genetics/CrossoverPolicies/UniformRandomCrossover.h:
+
+../Examples/Automata/../../Evolution/GenerationPolicies/ConstantSize.h:
+
+../Examples/Automata/../../Evolution/Evolvable.h:
+
+../Examples/Automata/../../Mutators.h:
+
+../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/RandIncrMutator.h:
+
+../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/../../../../Random/UniformRNG.h:
+
+../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/MutatorBase.h:
+
+../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/Mutator.h:
+
+../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/../../../../Utilities/TypeNum.h:
+
+../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/BitflipMutators/BitflipMutators.h:
+
+../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/BitflipMutators/UniformBitflipMutator.h:
+
+../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/BitflipMutators/../../../../../Random/BaseRNG.h:
+
+../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/BitflipMutators/GuaranteedBitflipMutator.h:
+
+../Examples/Automata/../../Evolution/Genetics/Mutation/Mutators/BitflipMutators/../../../../../Random/UniqueIntGenerator.h:
+
+../Examples/Automata/Automaton.h:
+
+../Examples/Automata/../../Evolution/Evolvable.h:
+
+../Examples/Automata/Vec.h:
+
+../Examples/Automata/PID.h:
+
+../Examples/Automata/Food.h:
+
+../Examples/Automata/NormalDist.h:

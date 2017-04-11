@@ -8,7 +8,7 @@
 #ifndef MUTATION_MUTATORS_BITFLIPMUTATORS_BITFLIPMUTATORS_H_
 #define MUTATION_MUTATORS_BITFLIPMUTATORS_BITFLIPMUTATORS_H_
 
-#include "NonuniformBitflipMutator.h"
+/** Headers for bitflip mutators. */
 #include "UniformBitflipMutator.h"
 #include "GuaranteedBitflipMutator.h"
 

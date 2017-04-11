@@ -7,8 +7,8 @@
 
 #ifndef MUTATION_MUTATORS_RANDOMMUTATOR_H_
 #define MUTATION_MUTATORS_RANDOMMUTATOR_H_
-#include "../../../../Random/UniformRNG.h"
-#include "Mutator.h"
+#include "../../../../RandomNumbers.h"
+#include "MutatorBase.h"
 #include <type_traits>
 #include <limits>
 #include <boost/any.hpp>
@@ -19,46 +19,31 @@
  *
  * Primarily intended to be inherited from so as to make use of the 'rng_' and
  * 'rand_' fields, as well as the 'update()' methods.
+ *
+ * @author Timothy Van Slyke
  */
 template <typename T>
-class RandomMutator: public Mutator
+class RandomMutator: public MutatorBase<RandomMutator<T>>
 {
 
 protected:
 	rng::UniformRNG<T> rng_;
-	T rand_;
-	virtual void update()
-	{
-		rand_ = rng_();
-	}
 public:
-	RandomMutator(T lower_bound, T upper_bound)
-	{
-		this->rng_ = rng::UniformRNG<T>(lower_bound, upper_bound);
-		this->rand_ = T();
-	}
-	virtual ~RandomMutator()
+	/** Construct from a lower-bound and upper-bound. */
+	RandomMutator(T lower_bound, T upper_bound): rng_(lower_bound, upper_bound)
 	{
 
 	}
-	virtual T getValue(boost::any & data)
-	{
-		return boost::any_cast<T>(data);
-	}
+	/**
+	 * Mutate the data held by the boost::any reference.
+	 * @param data - The boost::any reference to mutate.
+	 */
 	virtual void mutate(boost::any & data)
 	{
-		update();
-		boost::any_cast<T&>(data) = rand_;
+		boost::any_cast<T&>(data) = rng_();
 	}
-	virtual size_t getID() const
-	{
-		return RandomMutator<T>::mutatorID;
-	}
-	static const size_t mutatorID;
 };
 
-template <typename T>
-const size_t RandomMutator<T>::mutatorID = MutatorDiagnostics::assignID();
 
 
 

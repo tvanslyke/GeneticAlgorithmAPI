@@ -5,14 +5,17 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../Random/BaseRNG.cpp \
+../Random/Decisions.cpp \
 ../Random/RandomBitsAndBools.cpp 
 
 OBJS += \
 ./Random/BaseRNG.o \
+./Random/Decisions.o \
 ./Random/RandomBitsAndBools.o 
 
 CPP_DEPS += \
 ./Random/BaseRNG.d \
+./Random/Decisions.d \
 ./Random/RandomBitsAndBools.d 
 
 
@@ -20,7 +23,7 @@ CPP_DEPS += \
 Random/%.o: ../Random/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross G++ Compiler'
-	g++ -D__GXX_EXPERIMENTAL_CXX0X__ -O0 -g3 -Wall -c -std=c++11  -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	g++ -D__GXX_EXPERIMENTAL_CXX0X__ -O0 -g3 -Wall -c -std=c++1y -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

@@ -7,20 +7,31 @@
 
 #ifndef MUTATOR_H_
 #define MUTATOR_H_
-#include "Mutator.h"
+
 #include <boost/any.hpp>
-#include "../MutatorDiagnostics.h"
+
+/**
+ * Base mutator class.  Mutators mutate data contained within
+ * Gene instances in a policy-like manor.
+ *
+ * @author Timothy Van Slyke
+ */
 class Mutator
 {
-protected:
-	static size_t assignID();
-	Mutator();
-
 public:
-	virtual ~Mutator();
-	virtual size_t getID() const;
+
+	/** Default virtual ctor. */
+	virtual ~Mutator() = default;
+	/**
+	 * Return the unique ID for this type of mutator.
+	 * @return The id for this mutator type.
+	 */
+	virtual const size_t getID() const;
+	/**
+	 * Mutate the data held by the boost::any reference.
+	 * @param data - The boost::any reference to mutate.
+	 */
 	virtual void mutate(boost::any & data);
-	static const size_t mutatorID;
 };
 
 #endif /* MUTATOR_H_ */

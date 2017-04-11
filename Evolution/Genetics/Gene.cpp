@@ -6,19 +6,18 @@
  */
 
 #include "Gene.h"
+#include "MakeGene.h"
 
-Gene::~Gene()
-{
-	// TODO Auto-generated destructor stub
-}
 
 void Gene::mutate()
 {
-	this->mutator_->mutate(this->data_);
+	this->mutator_->mutate(data_);
 }
-Gene::Gene(std::shared_ptr<Mutator> mutator, boost::any data):data_(data), mutator_(mutator)
-{
-}
+Gene::Gene(const std::shared_ptr<Mutator> & mutator):data_(), mutator_(mutator){}
+Gene::Gene(const std::shared_ptr<Mutator> & mutator, const boost::any & data):data_(data), mutator_(mutator){}
+
+
+
 
 
 MutatorManager Gene::mutatorMaker_ = MutatorManager();

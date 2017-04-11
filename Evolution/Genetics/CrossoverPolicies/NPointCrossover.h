@@ -1,189 +1,116 @@
 /*
  * NPointCrossover.h
  *
- *  Created on: Feb 18, 2017
+ *  Created on: Apr 6, 2017
  *      Author: tim
  */
 
-#ifndef EVOLUTION_GENETICS_CROSSOVERPOLICIES_NPOINTCROSSOVER_H_
-#define EVOLUTION_GENETICS_CROSSOVERPOLICIES_NPOINTCROSSOVER_H_
+#ifndef EVOLUTION_GENETICS_CROSSOVERPOLICIES_NPOINTCROSSOVER_
+#define EVOLUTION_GENETICS_CROSSOVERPOLICIES_NPOINTCROSSOVER_
 
 #include "CrossoverPolicy.h"
+#include <type_traits>
+#include <stdexcept>
+#include <cassert>
 #include "../../../Random/RandomBitsAndBools.h"
 #include "../../../Random/UniqueIntGenerator.h"
-
-class NPointCrossover: public CrossoverPolicy<NPointCrossover> {
-
+/**
+ * CrossoverPolicy where there are N points along the chromosome that
+ * mark a swaping points.  Every other point alternates between being
+ * swapped and staying in its original chromosome.
+ *
+ * @author Timothy Van Slyke
+ */
+template <size_t N>
+class NPointCrossover: public CrossoverPolicy<NPointCrossover<N>> {
 private:
-	rng::UniqueIntGenerator<size_t> generator;
-	const size_t nPoints;
+	/** Generates breakpoint indices. */
+	rng::UniqueIntGenerator<size_t> generator_;
 public:
-	NPointCrossover(size_t n);
-	virtual ~NPointCrossover();
-	template <typename It>
-	void operator()(It begin1, It end1, It begin2, std::forward_iterator_tag)
-	{
-		(*this)(begin1, end1, begin2, std::distance(begin1, end1), std::forward_iterator_tag());
-	}
+	/** Default ctor. */
+	NPointCrossover() = default;
+	/** default virtual destructor. */
+	virtual ~NPointCrossover() = default;;
 
-	template <typename It>
-	void operator()(It begin1, It end1, It begin2, It dest, std::forward_iterator_tag)
+	/**
+	 * Two-parent one-child crossover.
+	 * @param parent1 - The first parent.
+	 * @param parent2 - The second parent.
+	 * @param child - The child chromosome.
+	 */
+	template <class C>
+    void crossover(const C & parent1, const C & parent2, C & child)
 	{
-		(*this)(begin1, end1, begin2, std::distance(begin1, end1), std::forward_iterator_tag());
-	}
-
-	template <typename It>
-	void operator()(const It & begin1, const It & end1, const It & begin2, std::random_access_iterator_tag)
-	{
-		(*this)(begin1, end1, begin2, std::distance(begin1, end1), std::random_access_iterator_tag());
-	}
-
-	template <typename It>
-	void operator()(const It & begin1, const It & end1, const It & begin2, It dest, std::random_access_iterator_tag)
-	{
-		(*this)(begin1, end1, begin2, std::distance(begin1, end1), std::random_access_iterator_tag());
-	}
-	template <typename It>
-	void operator()(It begin1, It end1, It begin2, size_t count, std::forward_iterator_tag)
-	{
-
-		generator.limits(0, count)
-				 .sorted(rng::ASCENDING);
-		generator.lock();
-		size_t dist = generator();
-		auto temp = dist;
+		// initialize the generator.
+		generator_.limits(0, parent1.size()).length(N).sorted(rng::ASCENDING);
+		generator_.lock();
+		// decide which parent the first segment will come from
 		bool polarity = rng::RandomBitsAndBools::get();
-		auto stop = begin1;
-		std::advance(stop, dist);
-		if(polarity)
-			std::swap_ranges(begin1, stop, begin2);
-		std::advance(begin2, dist);
-		begin1 = stop;
-		for(auto ignr = 1; ignr < nPoints; ++ignr)
+		auto begin = child.begin();
+		size_t start = 0;
+		size_t stop = 0;
+		// iterate over each breakpoint, switching the parent chromosome every other point.
+		for(size_t i = 0; i < N; ++i)
 		{
+			stop = generator_();
+			std::copy((polarity ? parent1 : parent2).cbegin() + start,
+					 (polarity ? parent1 : parent2).cbegin() + stop,
+					  begin + start);
 			polarity = not polarity;
-			dist = generator() - temp;
-			temp += dist;
-			std::advance(stop, dist);
-			if(polarity)
-				std::swap_ranges(begin1, stop, begin2);
-			std::advance(begin2, dist);
-			begin1 = stop;
+			start = stop;
 		}
+		// one last copy
+		stop = std::distance(parent1.begin(), parent1.end());
+		std::copy((polarity ? parent1 : parent2).cbegin() + start,
+				  (polarity ? parent1 : parent2).cbegin() + stop,
+				  begin + start);
 	}
-
-	template <typename It>
-	void operator()(It begin1, It end1, It begin2, It dest, size_t count, std::forward_iterator_tag)
+	/**
+	 * Two-parent two-child crossover.
+	 * @param parent1 - The first parent.
+	 * @param parent2 - The second parent.
+	 * @param child1 - The first child chromosome.
+	 * @param child2 - The second child chromosome.
+	 */
+	template <class C>
+    void crossover(const C & parent1, const C & parent2, C & child1, C & child2)
 	{
-
-		generator.limits(0, count)
-				 .sorted(rng::ASCENDING);
-		generator.lock();
-		size_t dist = generator();
-		auto temp = dist;
-		bool polarity = rng::RandomBitsAndBools::get();
-		auto stop = It();
-		auto advance_all = [&polarity, &begin1, &begin2, &dist, &stop, &dest]()
+		// initialize the generator.
+		generator_.limits(0, parent1.size()).length(N).sorted(rng::ASCENDING);
+		generator_.lock();
+		auto begin1 = child1.begin();
+		auto begin2 = child2.begin();
+		size_t start = 0;
+		size_t stop = 0;
+		// iterate over each breakpoint
+		for(size_t i = 0; i < N; ++i)
 		{
-			if(polarity)
+			stop = generator_();
+			// switch parents/children every other iteration
+			if(i & 1)
 			{
-				stop = begin1;
-				std::advance(stop, dist);
-				std::copy(begin1, stop, dest);
-				std::advance(begin2, dist);
+				std::copy(parent1.begin() + start, parent1.begin() + stop, begin1 + start);
+				std::copy(parent2.begin() + start, parent2.begin() + stop, begin2 + start);
 			}
 			else
 			{
-				stop = begin2;
-				std::advance(stop, dist);
-				std::copy(begin2, stop, dest);
-				std::advance(begin1, dist);
+				std::copy(parent1.begin() + start, parent1.begin() + stop, begin1 + start);
+				std::copy(parent2.begin() + start, parent2.begin() + stop, begin2 + start);
 			}
-			std::advance(dest, dist);
-		};
-		advance_all();
-		begin1 = stop;
-		for(auto ignr = 1; ignr < nPoints; ++ignr)
-		{
-			polarity = not polarity;
-			dist = generator() - temp;
-			temp += dist;
-			advance_all();
+			start = stop;
 		}
-		if(polarity)
+		// one last copy
+		if(N & 1)
 		{
-			std::copy(begin1, end1, dest);
+			std::copy(parent1.begin() + start, parent1.end(), begin1 + start);
+			std::copy(parent2.begin() + start, parent2.end(), begin2 + start);
 		}
 		else
 		{
-			auto end2 = end1;
-			std::advance(end2, std::distance(begin1, end1));
-			std::copy(begin2, end2, dest);
+			std::copy(parent1.begin() + start, parent1.end(), begin1 + start);
+			std::copy(parent2.begin() + start, parent2.end(), begin2 + start);
 		}
-	}
-
-
-	template <typename It>
-	void operator()(It begin1, It end1, It begin2, size_t count, std::random_access_iterator_tag)
-	{
-
-		generator.limits(0u, count)
-				 .sorted(rng::ASCENDING);
-		generator.lock();
-		auto dist = generator();
-		auto temp = dist;
-		bool polarity = rng::RandomBitsAndBools::get();
-		if(polarity)
-			std::swap_ranges(begin1, begin1 + dist, begin2);
-		begin1 += dist;
-		begin2 += dist;
-
-		for(auto ignr = 1u; ignr < nPoints; ++ignr)
-		{
-			polarity = not polarity;
-			dist = generator() - temp;
-			temp += dist;
-			if(polarity)
-				std::swap_ranges(begin1, begin1 + dist, begin2);
-			begin2 += dist;
-			begin1 += dist;
-		}
-		if(polarity)
-			std::swap_ranges(begin1, end1, begin2);
-	}
-	template <typename It>
-	void operator()(It begin1, It end1, It begin2, It dest, size_t count, std::random_access_iterator_tag)
-	{
-		generator.limits(0, count)
-				 .sorted(rng::ASCENDING);
-		generator.lock();
-		size_t dist = generator();
-		auto temp = dist;
-		bool polarity = rng::RandomBitsAndBools::get();
-		if(polarity)
-			std::copy(begin1, begin1 + dist, dest);
-		else
-			std::copy(begin2, begin2 + dist, dest);
-		begin1 += dist;
-		begin2 += dist;
-		for(auto ignr = 1; ignr < nPoints; ++ignr)
-		{
-			polarity = not polarity;
-			dist = generator() - temp;
-			temp += dist;
-			if(polarity)
-				std::copy(begin1, begin1 + dist, dest);
-			else
-				std::copy(begin2, begin2 + dist, dest);
-			begin2 += dist;
-			begin1 += dist;
-		}
-		if(polarity)
-			std::copy(begin1, end1, dest);
-		else
-			std::copy(begin1, begin2 + end1 - begin1, dest);
 	}
 
 };
-
-#endif /* EVOLUTION_GENETICS_CROSSOVERPOLICIES_NPOINTCROSSOVER_H_ */
+#endif /* EVOLUTION_GENETICS_CROSSOVERPOLICIES_NPOINTCROSSOVER_ */

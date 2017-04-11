@@ -8,57 +8,53 @@
 #ifndef MUTATION_MUTATORS_BITFLIPMUTATORS_UNIFORMBITFLIPMUTATOR_H_
 #define MUTATION_MUTATORS_BITFLIPMUTATORS_UNIFORMBITFLIPMUTATOR_H_
 #include <limits>
-#include "BitflipMutator.h"
 #include "../../../../../Random/BaseRNG.h"
-template <typename T>
-class UniformBitflipMutator:public BitflipMutator<T> {
+#include <type_traits>
 
+using rng::BaseRNG;
+/**
+ * Class for mutating integral data by flipping bits.  Each bit in the datum has the same
+ * probability of being selected for being flipped.
+ * @author Timothy Van Slyke
+ */
+template <typename T>
+class UniformBitflipMutator:public MutatorBase<UniformBitflipMutator<T>> {
 private:
+	/** Threshhold value for random-number generator. */
 	const uint_fast64_t cutoff_;
 public:
-
-	UniformBitflipMutator(uint_fast64_t cutoff):BitflipMutator<T>(),cutoff_(cutoff)
-	{
-
-	}
+	/** Construct from a probability between 0 and 1. */
 	UniformBitflipMutator(double probability):
-		UniformBitflipMutator(BaseRNG::minm + ((uint_fast64_t)((BaseRNG::maxm - BaseRNG::minm) * probability)))
+		cutoff_(BaseRNG::min() + ((uint_fast64_t) (BaseRNG::range() * probability)))
 	{
-		assert((0.0 <= probability) and (probability <= 1.0));
+		static_assert(std::is_integral<T>::value, "Bitflip Mutators may only operate on integral types.");
+		if(probability > 1.0 or probability < 0.0)
+		{
+			throw std::invalid_argument("[UniformBitflipMutator] Probability must be between 0.0 and 1.0.");
+		}
 	}
-	virtual ~UniformBitflipMutator()
-	{
-		;
-	}
+	/** Default destructor. */
+	virtual ~UniformBitflipMutator() = default;
+	/**
+	 * Mutate the data held by the boost::any reference.
+	 * @param data - The boost::any reference to mutate.
+	 */
 	void mutate(boost::any & dat)
 	{
+		// get the value stored by the reference
 		T data = boost::any_cast<T>(dat);
-		if(cutoff_)
+		size_t bits = CHAR_BIT * sizeof(T);
+		// randomly mutate bits
+		for(size_t i = 0; i < bits; ++i)
 		{
-
-			size_t bits = CHAR_BIT * sizeof(T);
-			for(size_t i = 0; i < bits; ++i)
+			while(cutoff_ < BaseRNG::getRandomNumber())
 			{
-				while(cutoff_ < BaseRNG::getRandomNumber())
-				{
-					++i;
-				}
-				data ^= (T(1) << i);
+				++i;
 			}
-			dat = boost::any(data);
-		}
-		else
-		{
-			dat = boost::any(~data);
+			data ^= (T(1) << i);
 		}
 	}
-	virtual size_t getID() const
-	{
-		return UniformBitflipMutator<T>::mutatorID;
-	}
-	static const size_t mutatorID;
 };
-template <typename T>
-const size_t UniformBitflipMutator<T>::mutatorID = MutatorDiagnostics::assignID();
+
 
 #endif /* MUTATION_MUTATORS_BITFLIPMUTATORS_UNIFORMBITFLIPMUTATOR_H_ */

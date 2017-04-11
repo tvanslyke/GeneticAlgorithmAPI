@@ -11,6 +11,20 @@
 
 #include <iterator>
 #include <iostream>
+#include "../DynamicChromosome.h"
+#include "../StaticChromosome.h"
+#include <stdexcept>
+
+/** Enumerations used for tag dispatching.*/
+enum TwoChildren
+{
+	TWO_CHILDREN
+};
+
+enum OneChild
+{
+	ONE_CHILD
+};
 
 /**
  * Policy for handling crossover between two chromosomes.  Implementations of the CrossoverPolicy interface
@@ -18,81 +32,98 @@
  *
  * 		MyPolicy:public CrossoverPolicy<MyPolicy>
  *
- * CrossoverPolicy dispatches to the proper overload of operator() in PolicyType.  All CrossoverPolicy
- * implementations only need to implement one of the below signatures of operator(), provided that the
- * NextGenerationPolicy caller invokes the corresponding signature in Population.
+ * CrossoverPolicy uses tag dispatching to invoke the crossover() method implemented by it's component policy 'P'.
+ * @author Timothy Van Slyke
  */
-template <class PolicyType>
+template <class P>
 class CrossoverPolicy {
 private:
 
 public:
+	/** Default constructor. */
+	CrossoverPolicy() = default;
+	/** Default destructor. */
+	virtual ~CrossoverPolicy() = default;
 
-	CrossoverPolicy()
+	/**
+	 * Performs a crossover procedure to produce one child StaticChromosome<N> from two parent StaticChromosome<N>.
+	 *
+	 * @param parent1 - The first parent chromosome.
+	 * @param parent2 - The second parent chromosome.
+	 * @param tag dispatched parameter.  Call with ONE_CHILD to invoke this overload.
+	 * @return returns the new StaticChromosome<N>
+	 */
+	template <size_t N>
+	StaticChromosome<N> cross(const StaticChromosome<N> & parent1, const StaticChromosome<N> & parent2, OneChild)
 	{
-
+		StaticChromosome<N> child;
+		static_cast<P&>(*this).template crossover<StaticChromosome<N>>(parent1, parent2, child);
+		return child;
 	}
-
-	virtual ~CrossoverPolicy()
+	/**
+	 * Performs a crossover procedure to produce two children StaticChromosome<N>s from two parent chromosomes.
+	 *
+	 * @param parent1 - The first parent chromosome.
+	 * @param parent2 - The second parent chromosome.
+	 * @param tag dispatched parameter.  Call with TWO_CHILDREN to invoke this overload.
+	 * @return returns two new StaticChromosome<N>s in a std::pair.
+	 */
+	template <size_t N>
+	std::pair<StaticChromosome<N>, StaticChromosome<N>>
+	cross(const StaticChromosome<N> & parent1, const StaticChromosome<N> & parent2, TwoChildren)
 	{
-
+		StaticChromosome<N> child1;
+		StaticChromosome<N> child2;
+		static_cast<P&>(*this).template crossover<StaticChromosome<N>>(parent1, parent2, child1, child2);
+		return {child1, child2};
 	}
 
 	/**
-	 * Crosses two chromosomes in-place.
+	 * Performs a crossover procedure to produce one child DynamicChromosome from two parent DynamicChromosomes.
 	 *
-	 * @param start1 - iterator to the start of the first chromosome.
-	 * @param end1	 - iterator to the end of the first chromosome.
-	 * @param start2 - iterator to the start of the second chromosome.
+	 * @param parent1 - The first parent chromosome.
+	 * @param parent2 - The second parent chromosome.
+	 * @param tag dispatched parameter.  Call with ONE_CHILD to invoke this overload.
+	 * @return returns the new DynamicChromosome
 	 */
-	template <typename It>
-	void operator()(It start1, It end1, It start2)
+	DynamicChromosome cross(const DynamicChromosome & parent1, const DynamicChromosome & parent2, OneChild)
 	{
-		(*(static_cast<PolicyType*>(this)))(start1, end1, start2, typename std::iterator_traits<It>::iterator_category());
+
+		if(parent1.size() != parent2.size())
+		{
+			throw std::invalid_argument("Attempt to perform crossover on parent chromosomes of different sizes.");
+		}
+		DynamicChromosome child;
+		child.resize(parent1.size());
+		static_cast<P&>(*this).template crossover<DynamicChromosome>(parent1, parent2, child);
+		return child;
 	}
 
-	/**
-	 * Crosses two chromosomes in-place, but provides a parameter for the length of the chromosome.
-	 * This is useful for cases where std::distance(begin1, end1) has linear time complexity, but the distance is known to the caller.
-	 *
-	 * @param start1 - iterator to the start of the first chromosome.
-	 * @param end1	 - iterator to the end of the first chromosome.
-	 * @param start2 - iterator to the start of the second chromosome.
-	 * @param count  - distance between start1 and end1.
-	 */
-	template <typename It>
-	void operator()(It start1, It end1, It start2, size_t count)
-	{
-		(*(static_cast<PolicyType*>(this)))(start1, end1, start2, count, typename std::iterator_traits<It>::iterator_category());
-	}
 
 	/**
-	 * Crossover on two chromosomes that does not modify the parents.  The result of the crossover is read into the 'dest' iterator.
+	 * Performs a crossover procedure to produce two children DynamicChromosomes from two parent DynamicChromosomes.
 	 *
-	 * @param start1 - iterator to the start of the first chromosome.
-	 * @param end1	 - iterator to the end of the first chromosome.
-	 * @param start2 - iterator to the start of the second chromosome.
+	 * @param parent1 - The first parent chromosome.
+	 * @param parent2 - The second parent chromosome.
+	 * @param tag dispatched parameter.  Call with TWO_CHILDREN to invoke this overload.
+	 * @return returns two new DynamicChromosomes in a std::pair.
 	 */
-	template <typename It>
-	void operator()(It start1, It end1, It start2, It dest)
+	std::pair<DynamicChromosome, DynamicChromosome>
+	cross(const DynamicChromosome & parent1, const DynamicChromosome & parent2, TwoChildren)
 	{
-		(*(static_cast<PolicyType*>(this)))(start1, end1, start2, dest, typename std::iterator_traits<It>::iterator_category());
+
+		if(parent1.size() != parent2.size())
+		{
+			throw std::invalid_argument("Attempt to perform crossover on parent chromosomes of different sizes.");
+		}
+		DynamicChromosome child1;
+		DynamicChromosome child2;
+		child1.resize(parent1.size());
+		child2.resize(parent1.size());
+		static_cast<P&>(*this).template crossover<DynamicChromosome>(parent1, parent2, child1, child2);
+		return {child1, child2};
 	}
 
-	/**
-	 * Crossover on two chromosomes that does not modify the parents.  The result of the crossover is read into the 'dest' iterator.
-	 * This is useful for cases where std::distance(begin1, end1) has linear time complexity, but the distance is known to the caller.
-	 *
-	 * @param start1 - iterator to the start of the first chromosome.
-	 * @param end1	 - iterator to the end of the first chromosome.
-	 * @param start2 - iterator to the start of the second chromosome.
- 	 * @param count  - distance between start1 and end1.
-	 */
-	template <typename It>
-	void operator()(It start1, It end1, It start2, It dest, size_t count)
-	{
-		(*(static_cast<PolicyType*>(this)))(start1, end1, start2, dest, typename std::iterator_traits<It>::iterator_category());
-	}
 };
 
 

@@ -9,7 +9,14 @@
 #define RANDOM_RANDOMBITSANDBOOLS_H_
 #include <cstdlib>
 #include "stdint.h"
+
 namespace rng{
+
+/**
+ * Class for generating random bits and boolean values
+ *
+ * @author Timothy Van Slyke
+ */
 class RandomBitsAndBools {
 private:
 	static uint_fast64_t bits;

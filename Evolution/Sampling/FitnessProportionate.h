@@ -12,7 +12,7 @@
 #include <vector>
 #include <algorithm>
 #include "../Evolvable.h"
-#include "../../Random/RandomNumbers.h"
+#include "../../RandomNumbers.h"
 
 
 
@@ -20,56 +20,72 @@
  * SamplingPolicy implementing fitness proportionate selection.
  *
  * see: https://en.wikipedia.org/wiki/Fitness_proportionate_selection
+ *
+ * @author Timothy Van Slyke
  */
 
-class FitnessProportionate {
-	using FitPair = std::pair<Evolvable*,double>;
+template <typename E>
+class FitnessProportionate
+{
+	using FitPair = std::pair<E*, double>;
 	using BaseRNG = rng::BaseRNG;
+	/** Comparison functor to be used internally. */
 	class FitPairGreater
 	{
-		using FitPair = std::pair<Evolvable*, double>;
+		using FitPair = std::pair<E*, double>;
 	public:
+		/**
+		 * Compare two FitPairs.
+		 * @param a - the first FitPair.
+		 * @param b - the second FitPair.
+		 * @return true if fitness(a) > fitness(B), else false.
+		 */
 		bool operator()(const FitPair & a, const FitPair & b) const
-		{
-			return a.second > b.second;
-		}
-		bool operator()(FitPair && a, FitPair && b) const
 		{
 			return a.second > b.second;
 		}
 	};
 protected:
+	/** Vector of cumulative Fitnesses. */
 	std::vector<uint_fast64_t> cumfits_;
-	std::vector<Evolvable*> pop_;
+	/** Vector of pointers to Evolvables. */
+	std::vector<E*> pop_;
 
 public:
-	FitnessProportionate()
-	{
-		cumfits_ = std::vector<uint_fast64_t>(0);
-		pop_ = std::vector<Evolvable*>(0);
-	}
-	//virtual ~FitnessProportionate();
+	/**
+	 * Build the internal sample.
+	 * @param begin - iterator to the first element in the population.
+	 * @param end - iterator to the first invalid element in the population.
+	 */
 	template <typename It>
 	void buildSample(const It & begin, const It & end)
 	{
+		// total fitness
 		double totalFit = 0.0;
+		// sorted population elements.
 		std::multiset<FitPair,FitPairGreater> sortedPop;
 		auto ins = sortedPop.begin();
+		// fill the multiset.
 		for(auto iter = begin; iter != end; ++iter)
 		{
-			ins = sortedPop.insert(FitPair(static_cast<Evolvable*>(&(*iter)), (*iter).getFitness()));
+			ins = sortedPop.insert(FitPair(static_cast<E*>(&(*iter)), (*iter).getFitness()));
 			totalFit += ins->second;
 		}
+		// clear the cumfits vector
 		cumfits_.clear();
+		// clear the vector of evolvable pointers.
 		pop_.clear();
-		cout << cumfits_.size() << endl;
-		ins = sortedPop.begin();
 
-		auto scaleToInt = [&totalFit](const double & num)->uint_fast64_t{return uint_fast64_t(BaseRNG::range * (num / totalFit) + BaseRNG::minm);};
-		cout << ins->second << endl;
+		ins = sortedPop.begin();
+		// scales fitnesses to uint64s for faster comparisons.
+		auto scaleToInt = [&totalFit](double num)->uint_fast64_t
+		{
+			return uint_fast64_t(BaseRNG::range() * (num / totalFit) + BaseRNG::min());
+		};
+
+		// sort the adjusted fitnesses and fill the local vector of evolvables.
 
 		cumfits_.push_back(scaleToInt(ins->second));
-
 		pop_.push_back(ins->first);
 		ins = sortedPop.erase(ins);
 
@@ -79,12 +95,14 @@ public:
 			pop_.push_back(ins->first);
 			ins = sortedPop.erase(ins);
 		}
-		for(auto & e:pop_)
-		{
-			cout << e->getFitness() << "\t";
-		}
-		cout << endl;
 	}
+	/**
+	 * Generate an entire sample at once.
+	 * @param begin - beginning of the input population.
+	 * @param end - end of the input population
+	 * @param destBegin - beginning of the output population
+	 * @param destEnd - end of the output population.
+	 */
 	template <typename It>
 	void sample(const It & begin, const It & end, It destBegin, It destEnd)
 	{
@@ -95,10 +113,14 @@ public:
 			++destBegin;
 		}
 	}
-	Evolvable* next()
+	/**
+	 * Lazily select the next evolvable.
+	 * @return a pointer to the next evolvable.
+	 */
+	E* next()
 	{
 		// generate random 64bit uint
-		cout << "a ";
+
 		uint_fast64_t rnum = rng::BaseRNG::getRandomNumber();
 		auto start = cumfits_.begin();
 
@@ -107,7 +129,7 @@ public:
 		std::tie(start, stop) =  std::equal_range(start, stop, rnum);
 		// if the number i repeated, find an upper bound and select an element randomly
 		// from within that range
-		cout << "b ";
+
 		if(start == cumfits_.end())
 		{
 			return pop_.back();
@@ -119,12 +141,13 @@ public:
 		// if not repeated, return immediately
 		else
 		{
-			cout << "c " << endl;
 			auto ind = (rng::UniformRNG<size_t>(start - cumfits_.begin(), (stop - cumfits_.begin())))();
-			cout << ind << endl;
 			return pop_[ind];
 		}
 	}
+	/**
+	 * Clear the internal storage structures of the sampling policy.
+	 */
 	void clear()
 	{
 		pop_.clear();

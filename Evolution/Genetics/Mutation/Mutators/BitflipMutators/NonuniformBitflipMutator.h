@@ -29,22 +29,15 @@ public:
 			nums.push_back(func(i));
 			sum += nums[i];
 		}
-		uint_fast64_t fullrange = BaseRNG::maxm - BaseRNG::minm;
 		std::vector<uint_fast64_t> cutoffs;
 		cutoffs.reserve(nbits);
 		for(size_t i = 0; i < nbits; ++i)
 		{
-			cutoffs.push_back(BaseRNG::minm + (uint_fast64_t)(fullrange * (nums[i]/sum)));
+			cutoffs.push_back(BaseRNG::min() + (uint_fast64_t)(BaseRNG::range() * (nums[i]/sum)));
 		}
 		return cutoffs;
 	}
 	NonuniformBitflipMutator(const std::vector<uint_fast64_t> & dist_values)
-	{
-		nbits = sizeof(T) * CHAR_BIT;
-		assert(dist_values.size() == nbits);
-		cutoffs_ = dist_values;
-	}
-	NonuniformBitflipMutator(std::vector<uint_fast64_t> && dist_values)
 	{
 		nbits = sizeof(T) * CHAR_BIT;
 		assert(dist_values.size() == nbits);
@@ -68,12 +61,7 @@ public:
 		}
 		data = boost::any(temp);
 	}
-	virtual size_t getID() const
-	{
-		return NonuniformBitflipMutator<T>::mutatorID;
-	}
-	static const size_t mutatorID;
+
 };
-template <typename T>
-const size_t NonuniformBitflipMutator<T>::mutatorID = MutatorDiagnostics::assignID();
+
 #endif /* MUTATION_MUTATORS_BITFLIPMUTATORS_NONUNIFORMBITFLIPMUTATOR_H_ */
